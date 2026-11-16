@@ -79,11 +79,11 @@
   });
 
   L('lpr', {
-    ko: { t: '번호판 인식: 세 개의 검출기', s: '차량 → 번호판 → 문자', n1: '차량', n2: '번호판', n3: '문자', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: '코드', lab1: '임계값', note: '예시 값',
+    ko: { t: '번호판 인식: 세 개의 검출기', s: '차량 → 번호판 → 문자', n1: '차량', n2: '번호판', n3: '문자', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: '코드', lab1: '임계값', note: '실제 모델 출력 (사무실 차량)',
       c0: '<b>run()</b>이 시작되면 카메라 프레임마다 이 흐름을 거칩니다.', c1: '먼저 <b>차량</b>을 찾습니다 (car, truck, bus는 한 클래스).', c2: '그 차량 안의 <b>번호판</b>만 씁니다: 최소 90%가 차량 안에 있어야 합니다.', c3: '번호판을 잘라 <b>문자</b>를 하나씩 검출합니다.' },
-    en: { t: 'Plate reading: three detectors', s: 'Car \u2192 plate \u2192 characters', n1: 'Vehicle', n2: 'Plate', n3: 'Characters', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'code', lab1: 'thresholds', note: 'sample values',
+    en: { t: 'Plate reading: three detectors', s: 'Car \u2192 plate \u2192 characters', n1: 'Vehicle', n2: 'Plate', n3: 'Characters', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'code', lab1: 'thresholds', note: 'real model output (office car)',
       c0: 'Once <b>run()</b> starts, every camera frame goes through this chain.', c1: 'First the <b>vehicle</b> is found (car, truck and bus count as one class).', c2: 'Only the <b>plate</b> inside that car is used: at least 90% must lie within the car box.', c3: 'The plate is cropped and each <b>character</b> is detected.' },
-    uz: { t: 'Raqam o\'qish: uchta detektor', s: 'Mashina \u2192 plastinka \u2192 belgilar', n1: 'Mashina', n2: 'Plastinka', n3: 'Belgilar', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'kod', lab1: 'chegaralar', note: 'namuna qiymatlar',
+    uz: { t: 'Raqam o\'qish: uchta detektor', s: 'Mashina \u2192 plastinka \u2192 belgilar', n1: 'Mashina', n2: 'Plastinka', n3: 'Belgilar', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'kod', lab1: 'chegaralar', note: 'haqiqiy model chiqishi (ishxona mashinasi)',
       c0: '<b>run()</b> ishga tushgach, har kamera kadri shu zanjirdan o\'tadi.', c1: 'Avval <b>mashina</b> topiladi (car, truck, bus bitta sinf).', c2: 'Faqat shu mashina ichidagi <b>plastinka</b> olinadi: kamida 90% mashina ichida bo\'lishi shart.', c3: 'Plastinka kesiladi va har bir <b>belgi</b> alohida aniqlanadi.' }
   });
   L('lpr2', {
@@ -206,43 +206,41 @@
   var MONO = 'ui-monospace,Menlo,Consolas,monospace', SANS = 'system-ui,"Noto Sans KR","Malgun Gothic",sans-serif';
   var T_ = function (parent, x, y, str, o) { o = o || {}; var e = svg('text', { x: x, y: y, fill: o.fill || '#f4f2ec', 'text-anchor': o.anchor || 'start', 'font-family': o.mono ? MONO : SANS, 'font-size': o.size || 24, 'font-weight': o.weight || 500 }, parent); e.textContent = str; return e; };
 
-  // ───────────────── lpr: kaskad ─────────────────
-  var PL = ['1', '2', '가', '3', '4', '5', '6'], PX0 = 470, PDX = 68, PC = [.97, .99, .88, .98, .96, .99, .97];
+  // ───────────────── lpr: kaskad (HAQIQIY mashina va haqiqiy model chiqishi) ─────────────────
+  var LD = window.LPR_DATA, VB = { x: 250, y: 100, w: 840 }, FS = 940 / VB.w, SHR = .5, CARD = { x: 230, y: 325, w: 480 };
   D.page({ id: 'lpr', dur: 24, caps: [[.8, 'lpr.c0'], [4, 'lpr.c1'], [9, 'lpr.c2'], [14, 'lpr.c3']], setup: function (root, p) {
     p.h = D.head(p, root); stepsPanel(root, p, 'lpr');
-    var sv = svg('svg', { viewBox: '0 0 940 600', width: 940, height: 600 }, root); css(sv, { position: 'absolute', left: '880px', top: '230px', overflow: 'visible' });
-    var W = p.W = svg('g', {}, sv); var g = p.car = svg('g', {}, W);
-    svg('ellipse', { cx: 470, cy: 492, rx: 340, ry: 22, fill: '#131517' }, g);
-    [[150, 392], [700, 392]].forEach(function (q) { svg('rect', { x: q[0], y: q[1], width: 90, height: 96, rx: 14, fill: '#0c0c0d' }, g); });
-    svg('rect', { x: 130, y: 280, width: 680, height: 170, rx: 38, fill: '#e9edf0' }, g);
-    svg('path', { d: 'M232 284 L292 154 Q302 132 332 132 H608 Q638 132 648 154 L708 284 Z', fill: '#e9edf0' }, g);
-    svg('path', { d: 'M262 274 L308 164 H632 L678 274 Z', fill: '#1c2630' }, g);
-    [[160, 322], [670, 322]].forEach(function (q) { svg('rect', { x: q[0], y: q[1], width: 110, height: 42, rx: 14, fill: '#cfd6dc', stroke: '#9aa3ab', 'stroke-width': 2 }, g); });
-    svg('rect', { x: 350, y: 330, width: 240, height: 50, rx: 10, fill: '#aeb6bd' }, g);
-    svg('rect', { x: 200, y: 396, width: 540, height: 38, rx: 12, fill: '#cfd6dc' }, g);
-    svg('rect', { x: 395, y: 398, width: 150, height: 34, rx: 4, fill: '#f6f4ee', stroke: '#555', 'stroke-width': 1.5 }, g); T_(g, 470, 424, '12가3456', { anchor: 'middle', size: 25, weight: 800, fill: '#1b1a19', mono: true });
-    p.cb = prep(svg('rect', { x: 104, y: 104, width: 732, height: 396, rx: 6, fill: 'none', stroke: C.acc2, 'stroke-width': 4 }, W));
-    p.cl = svg('g', {}, W); svg('rect', { x: 104, y: 70, width: 150, height: 34, fill: C.acc2 }, p.cl); T_(p.cl, 114, 95, 'car 0.91', { size: 22, weight: 700, fill: '#10202b', mono: true });
-    p.pb = prep(svg('rect', { x: 384, y: 390, width: 172, height: 52, rx: 4, fill: 'none', stroke: C.warn, 'stroke-width': 3.5 }, W));
-    p.pl = svg('g', {}, W); svg('rect', { x: 384, y: 358, width: 170, height: 32, fill: C.warn }, p.pl); T_(p.pl, 394, 382, 'plate 0.88', { size: 21, weight: 700, fill: '#2b1e05', mono: true });
-    p.zl = [svg('path', { d: 'M417 314 L212 408', fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, sv), svg('path', { d: 'M523 314 L728 408', fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, sv)];
-    
-    var bg = p.big = svg('g', {}, sv);
-    svg('rect', { x: 210, y: 400, width: 520, height: 140, rx: 14, fill: '#f6f4ee', stroke: '#777', 'stroke-width': 3 }, bg);
-    PL.forEach(function (ch, i) { T_(bg, PX0 + (i - 3) * PDX, 498, ch, { anchor: 'middle', size: i === 2 ? 60 : 68, weight: 800, fill: '#1b1a19', mono: true }); });
-    p.chb = PL.map(function (ch, i) { var hg = i === 2, x = PX0 + (i - 3) * PDX - 28; var r = prep(svg('rect', { x: x, y: 418, width: 56, height: 104, rx: 4, fill: 'none', stroke: hg ? C.warn : C.acc, 'stroke-width': 3.5 }, sv)); var c = T_(sv, x + 28, 566, PC[i].toFixed(2), { anchor: 'middle', size: 21, mono: true, fill: hg ? C.warn : C.acc2 }); c.style.opacity = 0; return { r: r, c: c }; });
-    p.rs = [T_(sv, 210, 610, '', { mono: true, size: 28, fill: '#f4f2ec', weight: 700 }), T_(sv, 210, 648, '', { mono: true, size: 24, fill: C.ink2 })];
-    p.nt = bind(el('div', 'abs', root), 'lpr.note'); css(p.nt, { left: '1580px', top: '890px', font: '400 20px var(--sans)', color: '#6f6d66' });
+    var holder = el('div', 'abs', root); css(holder, { left: '880px', top: '230px', width: '940px', height: '600px' });
+    var A = svg('svg', { viewBox: VB.x + ' ' + VB.y + ' ' + VB.w + ' ' + (VB.w * 600 / 940), width: 940, height: 600 }, holder); css(A, { position: 'absolute', left: 0, top: 0, overflow: 'visible', transformOrigin: '470px 0px' }); p.A = A;
+    var im = LD.car.img; p.im = svg('image', { href: 'img/car_cutout.png', x: im[0], y: im[1], width: im[2], height: im[3] }, A);
+    var cb = LD.car.box, pb = LD.plate.box, sw = 4 / FS;
+    p.cb = prep(svg('rect', { x: cb[0], y: cb[1], width: cb[2] - cb[0], height: cb[3] - cb[1], rx: 3, fill: 'none', stroke: C.acc2, 'stroke-width': sw }, A));
+    p.cl = svg('g', {}, A); var lw = 150 / FS, lh = 32 / FS; svg('rect', { x: cb[0], y: cb[1] - lh, width: lw, height: lh, fill: C.acc2 }, p.cl); var t1 = T_(p.cl, cb[0] + 8 / FS, cb[1] - 9 / FS, 'car ' + LD.car.conf.toFixed(2), { size: 22 / FS, weight: 700, fill: '#10202b', mono: true });
+    p.pb = prep(svg('rect', { x: pb[0] - 3, y: pb[1] - 3, width: pb[2] - pb[0] + 6, height: pb[3] - pb[1] + 6, rx: 3, fill: 'none', stroke: C.warn, 'stroke-width': 3.5 / FS }, A));
+    p.pl = svg('g', {}, A); svg('rect', { x: pb[0] - 3, y: pb[1] - 3 - lh, width: 168 / FS, height: lh, fill: C.warn }, p.pl); T_(p.pl, pb[0] + 5 / FS, pb[1] - 3 - 9 / FS, 'plate ' + LD.plate.conf.toFixed(2), { size: 21 / FS, weight: 700, fill: '#2b1e05', mono: true });
+    // yuqori qatlam (ekran koordinatalari): zoom chiziqlari, plastinka kesimi, belgilar
+    var B = svg('svg', { viewBox: '0 0 940 600', width: 940, height: 600 }, holder); css(B, { position: 'absolute', left: 0, top: 0, overflow: 'visible' });
+    var mapA = function (x, y) { var px = (x - VB.x) * FS, py = (y - VB.y) * FS; return [470 + (px - 470) * SHR, py * SHR]; };
+    var q1 = mapA(pb[0], pb[3]), q2 = mapA(pb[2], pb[3]);
+    p.zl = [svg('path', { d: 'M' + q1[0] + ' ' + (q1[1] + 4) + ' L' + CARD.x + ' ' + CARD.y, fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, B), svg('path', { d: 'M' + q2[0] + ' ' + (q2[1] + 4) + ' L' + (CARD.x + CARD.w) + ' ' + CARD.y, fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, B)];
+    var cr = LD.plate.crop, cw = cr[2] - cr[0], chh = cr[3] - cr[1], sc = CARD.w / cw, cardH = chh * sc;
+    p.big = svg('g', {}, B); svg('image', { href: 'img/plate_crop.jpg', x: CARD.x, y: CARD.y, width: CARD.w, height: cardH, preserveAspectRatio: 'none' }, p.big); svg('rect', { x: CARD.x, y: CARD.y, width: CARD.w, height: cardH, rx: 4, fill: 'none', stroke: '#777', 'stroke-width': 3 }, p.big);
+    p.chb = LD.chars.map(function (c, i0) { var hg = c.cls >= 10, x = CARD.x + (c.box[0] - cr[0]) * sc, y = CARD.y + (c.box[1] - cr[1]) * sc, w = (c.box[2] - c.box[0]) * sc, h = (c.box[3] - c.box[1]) * sc;
+      var r = prep(svg('rect', { x: x, y: y, width: w, height: h, rx: 3, fill: 'none', stroke: hg ? C.warn : C.acc, 'stroke-width': 3 }, B)); var t = T_(B, CARD.x + (i0 + .5) * (CARD.w / LD.chars.length), CARD.y + cardH + 26, c.conf.toFixed(2).replace('0.', '.'), { anchor: 'middle', size: 19, mono: true, fill: hg ? C.warn : C.acc2 }); t.style.opacity = 0; return { r: r, c: t }; });
+    p.cardBottom = CARD.y + cardH;
+    p.rs = [T_(B, CARD.x, p.cardBottom + 72, '', { mono: true, size: 28, fill: '#f4f2ec', weight: 700 }), T_(B, CARD.x, p.cardBottom + 108, '', { mono: true, size: 24, fill: C.ink2 })];
+    p.nt = bind(el('div', 'abs', root), 'lpr.note'); css(p.nt, { left: '1470px', top: '236px', font: '400 20px var(--sans)', color: '#6f6d66', textAlign: 'right', width: '350px' });
   }, render: function (t) { var p = this; p.h.render(t);
     var act = t < 4 ? -1 : t < 9 ? 0 : t < 14 ? 1 : 2;
-    stepsRender(p, 'lpr', t, act, [.8, 4, 9, 14], ['ttex_ai.run("station", cfg, part="cams")', 'det_conf 0.5 \u00b7 IoU 0.45', 'plate_conf 0.15 \u00b7 inside \u2265 90%', 'char_conf 0.30 \u00b7 crop +5%'], ['lab0', 'lab1', 'lab1', 'lab1']);
-    var kz = 1 - .38 * ease.io(prog(t, 10.8, .8)); p.W.setAttribute('transform', 'translate(470,100) scale(' + kz.toFixed(3) + ') translate(-470,-100)');
-    fade(p.car, ease.out(prog(t, 2, .8))); draw(p.cb, ease.out(prog(t, 4.4, 1.2))); fade(p.cl, ease.out(prog(t, 5.6, .4)));
+    stepsRender(p, 'lpr', t, act, [.8, 4, 9, 14], ['ttex_ai.run("station", cfg, part="cams")', 'det_conf 0.5 · IoU 0.45', 'plate_conf 0.15 · inside ≥ 90%', 'char_conf 0.30 · crop +5%'], ['lab0', 'lab1', 'lab1', 'lab1']);
+    var kz = 1 - (1 - SHR) * ease.io(prog(t, 10.8, .8)); p.A.style.transform = 'scale(' + kz.toFixed(3) + ')';
+    fade(p.im, ease.out(prog(t, 2, .8))); draw(p.cb, ease.out(prog(t, 4.4, 1.2))); fade(p.cl, ease.out(prog(t, 5.6, .4)));
     draw(p.pb, ease.out(prog(t, 9.4, .8))); fade(p.pl, ease.out(prog(t, 10.2, .4)));
     p.zl.forEach(function (q) { fade(q, ease.out(prog(t, 11.2, .6))); });
     fade(p.big, ease.out(prog(t, 11.6, .7))); p.big.setAttribute('transform', 'translate(0,' + ((1 - ease.out(prog(t, 11.6, .7))) * 14).toFixed(1) + ')');
     p.chb.forEach(function (c, i) { draw(c.r, ease.out(prog(t, 14.4 + i * .42, .4))); fade(c.c, ease.out(prog(t, 14.8 + i * .42, .3))); });
-    var r1 = 'text: "12\uac00' + '3456"', r2 = 'conf 0.97 \u00b7 hangul_conf 0.88'; var n1 = clamp((t - 18.2) * 30, 0, r1.length) | 0, n2 = clamp((t - 19.2) * 30, 0, r2.length) | 0; p.rs[0].textContent = r1.slice(0, n1); p.rs[1].textContent = r2.slice(0, n2);
+    var R = LD.result, r1 = 'text: "' + R.text + '"', r2 = 'conf ' + R.conf.toFixed(3) + ' · hangul_conf ' + R.hangul_conf.toFixed(3);
+    var n1 = clamp((t - 18.2) * 30, 0, r1.length) | 0, n2 = clamp((t - 19.2) * 30, 0, r2.length) | 0; p.rs[0].textContent = r1.slice(0, n1); p.rs[1].textContent = r2.slice(0, n2);
     fade(p.nt, ease.out(prog(t, 18, .6))); } });
 
   // ───────────────── lpr2: post-processing ─────────────────
