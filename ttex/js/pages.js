@@ -56,13 +56,26 @@
     uz: { t: 'Chiqarish va qaytarish', s: 'Stansiyaga faqat tag chiqadi', n1: 'Tekshirish', n2: 'Chiqarish', n3: 'Qaytarish', d1: 'CI shuni ishlatadi', d2: 'Tag (vX.Y.Z) bilan, branch emas', d3: 'current symlink oldingi release\'ga qaytadi', end: 'Bitta kod bazasi · faqat config stansiyaga xos · tag bilan deploy' }
   });
 
-  L('p08', {
-    ko: { t: '3D 디지털 트윈', s: '슬롯 상태를 3D로 본다', mock: '예시 데이터 (mock)', empty: '비어 있음', wash0: '세차장 · 대기', wash1: '세차장 · 1대 대기', wash2: '세차장 · 세척 중',
-      c1: '<b>ttex-ai</b> 출력(<b>gid_slots.json</b>)이 3D 장면을 움직입니다.', c2: '여기서는 예시 데이터입니다. 실제 트윈은 라이브 API를 읽습니다.' },
-    en: { t: '3D digital twin', s: 'See the slot state in 3D', mock: 'sample data (mock)', empty: 'empty', wash0: 'wash · idle', wash1: 'wash · 1 waiting', wash2: 'wash · in progress',
-      c1: '<b>ttex-ai</b> output (<b>gid_slots.json</b>) drives the 3D scene.', c2: 'The data here is a mock; the real twin reads a live API.' },
-    uz: { t: '3D digital twin', s: 'Slot holati 3D da', mock: 'namunaviy ma\'lumot (mock)', empty: 'bo\'sh', wash0: 'moyka · bo\'sh', wash1: 'moyka · 1 ta kutmoqda', wash2: 'moyka · yuvilmoqda',
-      c1: '<b>ttex-ai</b> chiqishi (<b>gid_slots.json</b>) 3D sahnani boshqaradi.', c2: 'Bu yerda ma\'lumot namunaviy; haqiqiy twin jonli API\'dan oladi.' }
+  L('modes', {
+    ko: { t: '도입 모드', s: '섀도에서 라이브까지, 한 단계씩', n1: 'Shadow', n2: 'Publish', n3: 'Live', u1: '관찰만', u2: '웹 UI에 공개', u3: '스테이션으로 전송',
+      d1: '다른 엔진의 결과를 읽기만 하고, 자신은 results_dir에만 씁니다.', d2: 'gid_*.json을 스테이션 웹 UI가 읽는 폴더에 씁니다.', d3: '기존 엔진을 대체하고 스테이션 서버로 전송합니다.', i1: '읽기', i2: '쓰기', i3: '전송', yes: '함', no: '안 함',
+      c1: '<b>Shadow</b>: 기존 엔진과 나란히 돌려 결과만 비교합니다.', c2: '<b>Publish</b>: 웹 UI는 바뀌지 않고 같은 gid_slots.json을 읽습니다.', c3: '<b>Live</b>: 기존 엔진을 대체하고 스테이션 서버로 보냅니다.' },
+    en: { t: 'Rollout modes', s: 'From shadow to live, one step at a time', n1: 'Shadow', n2: 'Publish', n3: 'Live', u1: 'Observe only', u2: 'Feeds the web UI', u3: 'Sends to the station',
+      d1: 'Reads another engine\'s results and writes only to its own results_dir.', d2: 'Writes gid_*.json to the folder the station web UI reads.', d3: 'Replaces the old engine and sends to the station server.', i1: 'read', i2: 'write', i3: 'send', yes: 'yes', no: 'no',
+      c1: '<b>Shadow</b>: runs beside the old engine, only the results are compared.', c2: '<b>Publish</b>: the web UI is unchanged and reads the same gid_slots.json.', c3: '<b>Live</b>: replaces the old engine and sends to the station server.' },
+    uz: { t: 'Joriy etish rejimlari', s: 'Shadow\'dan live\'gacha, bosqichma-bosqich', n1: 'Shadow', n2: 'Publish', n3: 'Live', u1: 'Faqat kuzatadi', u2: 'Web UI ga chiqaradi', u3: 'Station\'ga yuboradi',
+      d1: 'Boshqa engine natijasini o\'qiydi, o\'zi faqat results_dir ga yozadi.', d2: 'gid_*.json ni stansiya web UI o\'qiydigan papkaga yozadi.', d3: 'Eski engine o\'rniga ishlaydi va station serveriga yuboradi.', i1: 'o\'qiydi', i2: 'yozadi', i3: 'yuboradi', yes: 'ha', no: 'yo\'q',
+      c1: '<b>Shadow</b>: eski engine yonida ishlaydi, faqat natijalar solishtiriladi.', c2: '<b>Publish</b>: web UI o\'zgarmaydi, o\'sha gid_slots.json ni o\'qiydi.', c3: '<b>Live</b>: eski engine o\'rniga ishlaydi va station serveriga yuboradi.' }
+  });
+  L('layers', {
+    ko: { t: '설정 계층', s: '위치가 적용 범위를 정한다', l1: '이 스테이션 PC에만', l1s: 'git에 올라가지 않음 (비밀)', l2: '이 스테이션 전용 파일', l2s: '배포 때 코드 위에 복사', l3: '스테이션 하나', l3s: '카메라, 서비스, 변형', l4: '모든 스테이션', l4s: '엔진 코드(변형) 목록', c1: '아래에서 위로 갈수록 적용 범위가 좁아집니다.', c2: '비밀은 맨 위, 스테이션 PC에만 있습니다.' },
+    en: { t: 'Config layers', s: 'Location sets the scope', l1: 'This station PC only', l1s: 'never in git (secrets)', l2: 'Files for this station only', l2s: 'copied over the code on deploy', l3: 'One station', l3s: 'cameras, services, variant', l4: 'Every station', l4s: 'the list of engine code (variants)', c1: 'From the bottom up, the scope gets narrower.', c2: 'Secrets sit on top, on the station PC only.' },
+    uz: { t: 'Config qatlamlari', s: 'Joylashuv qamrovni belgilaydi', l1: 'Faqat shu stansiya PC\'si', l1s: 'gitga tushmaydi (secret)', l2: 'Shu stansiyaga xos fayllar', l2s: 'deploy\'da kod ustiga ko\'chiriladi', l3: 'Bitta stansiya', l3s: 'kameralar, servislar, variant', l4: 'Barcha stansiyalar', l4s: 'engine kodlari (variant\'lar)', c1: 'Pastdan yuqoriga qamrov torayib boradi.', c2: 'Secret eng tepada, faqat stansiya PC\'sida.' }
+  });
+  L('cycle', {
+    ko: { t: '설정 루프', s: '세 단계를 반복한다', n1: '설정 수정', n2: '렌더', n3: '라이브 비교', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: '명령', c1: '<b>sites/</b>의 설정을 고칩니다.', c2: '설정을 pm2 ecosystem으로 <b>렌더</b>합니다.', c3: '렌더 결과와 실제 <b>pm2</b>를 비교합니다.' },
+    en: { t: 'The config loop', s: 'Three steps, repeated', n1: 'Edit config', n2: 'Render', n3: 'Compare live', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'command', c1: 'Edit the config under <b>sites/</b>.', c2: '<b>Render</b> the config into a pm2 ecosystem.', c3: 'Compare the render with the live <b>pm2</b>.' },
+    uz: { t: 'Config sikli', s: 'Uch qadam takrorlanadi', n1: 'Config o\'zgartirish', n2: 'Render', n3: 'Jonli bilan solishtirish', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'buyruq', c1: '<b>sites/</b> dagi configni o\'zgartirasiz.', c2: 'Config pm2 ecosystem\'ga <b>render</b> qilinadi.', c3: 'Render natijasi haqiqiy <b>pm2</b> bilan solishtiriladi.' }
   });
 
   // ───────────────── p01: tuzilma ─────────────────
@@ -176,6 +189,46 @@
     p.ze.setAttribute('fill', t > 3.4 && t < 8.4 ? 'rgba(224,160,48,.22)' : 'rgba(224,160,48,.06)'); p.zx.setAttribute('fill', t > 9.8 && t < 12 ? 'rgba(95,185,138,.25)' : 'rgba(95,185,138,.06)');
     rise(p.note, ease.out(prog(t, 11.6, .8)), 14); } });
 
+  // ───────────────── modes: joriy etish rejimlari (p13 uslubi) ─────────────────
+  var ICON = {
+    read: '<ellipse cx="24" cy="24" rx="16" ry="10"/><circle cx="24" cy="24" r="4.5"/>',
+    write: '<path d="M10 38 L14 28 L32 10 L38 16 L20 34 Z M28 14 L34 20"/>',
+    send: '<path d="M8 24 L40 10 L30 38 L22 28 Z M22 28 L40 10"/>'
+  };
+  function chip(parent, kind, on, lab, x) {
+    var w = el('div', '', parent); css(w, { position: 'absolute', left: x + 'px', top: '306px', width: '110px', textAlign: 'center' });
+    var b = el('div', '', w); css(b, { width: '104px', height: '104px', margin: '0 auto', borderRadius: '18px', border: '2px ' + (on ? 'solid ' + C.ok : 'dashed #4a4741'), background: on ? 'rgba(95,185,138,.14)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' });
+    var sv = svg('svg', { viewBox: '0 0 48 48', width: 50, height: 50, fill: 'none', stroke: on ? C.ok : '#5c5a54', 'stroke-width': 2.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, b); sv.innerHTML = ICON[kind];
+    var l = bind(el('div', '', w), lab); css(l, { marginTop: '8px', font: '400 21px var(--sans)', color: on ? C.ink2 : '#5c5a54' }); return w;
+  }
+  var MODE_CFG = ['tail_dir: <other-engine>/results', 'publish_dir: <station-ui>/results', 'send: true'];
+  var MODE_ON = [[1, 0, 0], [1, 1, 0], [1, 1, 1]];
+  D.page({ id: 'modes', dur: 17, caps: [[4, 'modes.c1'], [8, 'modes.c2'], [12, 'modes.c3']], setup: function (root, p) {
+    p.h = D.head(p, root); p.cards = [];
+    for (var i = 0; i < 3; i++) (function (i) {
+      var c = el('div', 'card', root); css(c, { left: (120 + i * 580) + 'px', top: '250px', width: '520px', height: '470px', border: '2px solid ' + C.line });
+      var nm = bind(el('div', '', c), 'modes.n' + (i + 1)); css(nm, { position: 'absolute', left: '34px', top: '28px', font: '800 48px var(--sans)' });
+      var u = bind(el('div', '', c), 'modes.u' + (i + 1)); css(u, { position: 'absolute', left: '34px', top: '98px', font: '600 27px var(--sans)', color: C.acc2 });
+      var d = bind(el('div', 'ds', c), 'modes.d' + (i + 1)); css(d, { position: 'absolute', left: '34px', top: '148px', width: '452px', height: '120px' });
+      var kinds = ['read', 'write', 'send'], labs = ['modes.i1', 'modes.i2', 'modes.i3'];
+      for (var k = 0; k < 3; k++) chip(c, kinds[k], !!MODE_ON[i][k], labs[k], 34 + k * 140);
+      p.cards.push(c);
+    })(i);
+    var lg = el('div', 'abs', root); css(lg, { left: '124px', top: '742px', font: '400 22px var(--sans)', color: C.ink2, display: 'flex', gap: '34px' });
+    var y = el('span', '', lg); var yb = el('i', '', y); css(yb, { display: 'inline-block', width: '18px', height: '18px', borderRadius: '5px', background: C.ok, verticalAlign: '-2px', marginRight: '10px' }); bind(el('span', '', y), 'modes.yes');
+    var n = el('span', '', lg); var nb = el('i', '', n); css(nb, { display: 'inline-block', width: '18px', height: '18px', borderRadius: '5px', border: '2px dashed #5c5a54', verticalAlign: '-2px', marginRight: '10px' }); bind(el('span', '', n), 'modes.no');
+    p.bar = el('div', 'abs', root); css(p.bar, { left: '120px', top: '800px', width: '1000px', height: '92px', border: '2px solid ' + C.acc, borderRadius: '16px', background: '#131211', display: 'flex', alignItems: 'center', padding: '0 34px', font: '500 34px var(--mono)', color: C.ink });
+    p.arr = el('span', '', p.bar, '▸▸'); css(p.arr, { color: C.acc2, marginRight: '22px' }); p.txt = el('span', '', p.bar, '');
+    p.dots = [0, 1, 2].map(function (i) { var d = el('div', 'abs', root); css(d, { left: (1240 + i * 190) + 'px', top: '822px', width: '170px', textAlign: 'center', font: '700 24px var(--mono)', color: '#5c5a54' }); d.textContent = ['SHADOW', 'PUBLISH', 'LIVE'][i]; return d; });
+    p.ln = el('div', 'abs', root); css(p.ln, { left: '1250px', top: '868px', height: '5px', width: '0', background: C.acc, borderRadius: '3px' });
+    p.base = el('div', 'abs', root); css(p.base, { left: '1250px', top: '868px', height: '5px', width: '530px', background: C.line, borderRadius: '3px' });
+  }, render: function (t) { var p = this; p.h.render(t);
+    var act = t < 4 ? -1 : t < 8 ? 0 : t < 12 ? 1 : 2;
+    p.cards.forEach(function (c, i) { var q = ease.out(prog(t, 1.2 + i * .55, .7)); c.style.opacity = q.toFixed(3); var up = i === act ? -10 : 0; c.style.transform = 'translateY(' + ((1 - q) * 30 + up).toFixed(1) + 'px)'; c.style.borderColor = i === act ? C.acc : C.line; c.style.boxShadow = i === act ? '0 0 0 2px rgba(26,149,214,.25), 0 18px 40px rgba(0,0,0,.35)' : 'none'; });
+    fade(p.bar, ease.out(prog(t, 3.2, .6))); var m = act < 0 ? '' : MODE_CFG[act]; if (p.txt._m !== m) { p.txt.textContent = m; p.txt._m = m; }
+    p.dots.forEach(function (d, i) { d.style.color = i === act ? C.acc2 : '#5c5a54'; fade(d, ease.out(prog(t, 3.2, .6))); });
+    fade(p.base, ease.out(prog(t, 3.2, .6))); p.ln.style.width = (530 * (act < 0 ? 0 : (act + 1) / 3)).toFixed(0) + 'px'; } });
+
   // ───────────────── p06: station.yaml ─────────────────
   D.page({ id: 'p06', dur: 15, caps: [[10.5, 'p06.c1']], setup: function (root, p) {
     p.h = D.head(p, root);
@@ -188,6 +241,29 @@
       var c = el('div', 'card', root); css(c, { left: '1200px', top: (250 + i * 215) + 'px', width: '600px', height: '195px', padding: '24px 30px' });
       var h = bind(el('div', '', c), 'p06.k' + n); css(h, { font: '700 32px var(--sans)', marginBottom: '8px' }); var d = bind(el('div', 'ds', c), 'p06.k' + n + 'd', true); return c; });
   }, render: function (t) { var p = this; p.h.render(t); p.tm.render(t); p.ks.forEach(function (c, i) { rise(c, ease.out(prog(t, 2 + i * 2.6, .7)), 24); }); } });
+
+  // ───────────────── layers: config qatlamlari (p18 uslubi) ─────────────────
+  var LAYER = [
+    { f: 'site.env', fill: '#f4f2ec', ink: '#1b1a19', col: '#f4f2ec', k: 'l1' },
+    { f: 'overlay/', fill: '#1a95d6', ink: '#ffffff', col: '#6cc4f2', k: 'l2' },
+    { f: 'site.yaml', fill: '#5fb98a', ink: '#10231a', col: '#5fb98a', k: 'l3' },
+    { f: 'engines.yaml', fill: '#3a3834', ink: '#f4f2ec', col: '#a7a49b', k: 'l4' }];
+  D.page({ id: 'layers', dur: 15, caps: [[2, 'layers.c1'], [9, 'layers.c2']], setup: function (root, p) {
+    p.h = D.head(p, root);
+    var iso = el('div', 'abs', root); css(iso, { left: '330px', top: '330px', width: '640px', height: '400px', transform: 'rotateX(58deg) rotateZ(-34deg)', transformStyle: 'preserve-3d' });
+    p.ls = LAYER.map(function (L0, i) {
+      var c = el('div', '', iso); css(c, { position: 'absolute', left: 0, top: 0, width: '640px', height: '400px', borderRadius: '26px', background: L0.fill, boxShadow: '0 0 0 1px rgba(255,255,255,.08)', color: L0.ink });
+      var bar = el('div', '', c); css(bar, { position: 'absolute', left: '36px', top: '34px', width: '70px', height: '10px', borderRadius: '5px', background: L0.ink, opacity: .55 });
+      var f = el('div', '', c, L0.f); css(f, { position: 'absolute', left: '36px', top: '62px', font: '700 46px var(--mono)' });
+      var d = el('div', '', c); css(d, { position: 'absolute', left: '36px', top: '132px', font: '400 22px var(--mono)', opacity: .6, whiteSpace: 'pre' }); d.textContent = ['SECRET=••••', '*.tmpl → ${VAR}', 'site: <site-A>', 'engines: [...]'][i];
+      return c; });
+    p.lb = LAYER.map(function (L0, i) {
+      var y = 300 + i * 118, w = el('div', 'abs', root); css(w, { left: '1200px', top: y + 'px', width: '620px' });
+      var ln = el('div', '', w); css(ln, { position: 'absolute', left: '-80px', top: '22px', width: '64px', height: '2px', background: L0.col });
+      var a = bind(el('div', '', w), 'layers.' + L0.k); css(a, { font: '800 42px var(--sans)', color: L0.col }); var b = bind(el('div', '', w), 'layers.' + L0.k + 's'); css(b, { font: '400 24px var(--sans)', color: C.ink2, marginTop: '4px' }); return w; });
+  }, render: function (t) { var p = this; p.h.render(t);
+    p.ls.forEach(function (c, i) { var step = 3 - i, q = ease.out(prog(t, 1.2 + step * 1.0, .9)); var z = i === 0 ? 0 : 0; var final = (3 - i) * 62, from = final + 280; c.style.opacity = q.toFixed(3); c.style.transform = 'translateZ(' + (from + (final - from) * q).toFixed(1) + 'px)'; });
+    p.lb.forEach(function (w, i) { var step = 3 - i; rise(w, ease.out(prog(t, 1.9 + step * 1.0, .7)), 14); }); } });
 
   // ───────────────── p07: deploy ─────────────────
   D.page({ id: 'p07', dur: 15, caps: [], setup: function (root, p) {
@@ -204,21 +280,52 @@
     p.end = bind(el('div', 'abs', root), 'p07.end'); css(p.end, { left: 0, width: '1920px', top: '860px', textAlign: 'center', font: '700 40px var(--sans)', color: C.ink });
   }, render: function (t) { var p = this; p.h.render(t); p.st.forEach(function (s) { rise(s.g, ease.out(prog(t, 1 + s.i * 3.2, .7)), 26); s.tm.render(t); }); p.ar.forEach(function (a, i) { draw(a, ease.out(prog(t, 3.4 + i * 3.2, .5))); }); rise(p.end, ease.out(prog(t, 11.5, .8)), 16); } });
 
-  // ───────────────── p08: 3D digital twin (namunaviy ma'lumot) ─────────────────
-  D.page({ id: 'p08', dur: 21, caps: [[2, 'p08.c1'], [15, 'p08.c2']], setup: function (root, p) {
+
+  // ───────────────── cycle: config sikli, izometrik bloklar (p4 uslubi) ─────────────────
+  var S = 54, OX = 1370, OY = 300;
+  var PX = function (x, y, z) { return [OX + (x - y) * .866 * S, OY + (x + y) * .5 * S - z * S]; };
+  var pts = function (a) { return a.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '); };
+  var PLATES = [{ n: 'sites/', x: 0, y: 0, cubes: [[.4, .4, 1.1], [2.2, .5, .7], [.6, 2.3, 1.6], [2.4, 2.4, .9]] }, { n: 'ttex_ai/', x: 5, y: 0, cubes: [[.4, .4, .8], [2.3, .4, 1.4], [.5, 2.3, .6], [2.3, 2.3, 1.0]] }, { n: 'deploy/', x: 0, y: 5, cubes: [[.5, .5, .7], [2.3, .6, 1.2], [1.4, 2.3, .9]] }, { n: 'tests/', x: 5, y: 5, cubes: [[.4, .5, .6], [2.2, .4, .9], [.5, 2.2, 1.2], [2.3, 2.3, .7]] }];
+  var STEPS = [{ pl: 0, cu: 1, tag: 'site.yaml  +1  −1', cmd: ['$ git diff sites/<site>/site.yaml'] }, { pl: 1, cu: 2, tag: '$ ttex-ai render', cmd: ['$ ttex-ai render', '    --site <site>'] }, { pl: 2, cu: 0, tag: '$ ttex-ai diff-live', cmd: ['$ ttex-ai diff-live', '    --site <site>'] }];
+  D.page({ id: 'cycle', dur: 18, caps: [[2, 'cycle.c1'], [7, 'cycle.c2'], [12, 'cycle.c3']], setup: function (root, p) {
     p.h = D.head(p, root);
-    p.bx = el('div', 'abs', root); css(p.bx, { left: '120px', top: '250px', width: '1180px', height: '640px', overflow: 'hidden', borderRadius: '18px', border: '1px solid #3a3834', background: '#14181c' });
-    p.cv = el('canvas', '', p.bx); p.cv.width = 1770; p.cv.height = 960; css(p.cv, { position: 'absolute', left: 0, top: 0, width: '1180px', height: '640px' });
-    p.mock = bind(el('span', 'pill warn', p.bx), 'p08.mock'); css(p.mock, { position: 'absolute', left: '18px', bottom: '16px', background: 'rgba(20,24,28,.8)', fontSize: '18px' });
-    p.js = el('div', 'term abs', root); css(p.js, { left: '1340px', top: '250px', width: '460px', height: '640px' });
-    var bar = el('div', 'bar', p.js); el('i', '', bar); el('i', '', bar); el('i', '', bar); el('span', '', bar, 'gid_slots.json');
-    p.jb = el('div', 'body', p.js); css(p.jb, { font: '400 21px/1.55 var(--mono)', padding: '18px 22px' });
-    p.ready = false;
-    import('./twin.js').then(function (m) { p.tw = m.createTwin({ canvas: p.cv, w: 1770, h: 960, labelsRoot: p.bx, box: { w: 1180, h: 640 } }); p.ready = true; })
-      .catch(function (e) { var n = el('div', 'note', p.bx, 'WebGL: ' + (e && e.message || e)); css(n, { left: '30px', top: '280px', width: '1000px' }); });
-  }, render: function (t) { var p = this; p.h.render(t); rise(p.bx, ease.out(prog(t, .8, .8)), 24); rise(p.js, ease.out(prog(t, 1.2, .8)), 24);
-    if (!p.ready) return; var st = p.tw.update(t, D.T);
-    var o = ['{', '  "ts": ' + (1731747600 + (t | 0)) + ',', '  "slots": {'];
-    st.slots.forEach(function (s, i) { o.push('    "Slot-' + (i + 1) + '": ' + (s ? '{' : 'null') + (s ? '' : (i < 3 ? ',' : ''))); if (s) { o.push('      "plate": "' + s.plate + '",'); o.push('      "since": ' + Math.floor(s.since) + (i < 3 ? '},' : '}')); } });
-    o.push('  }', '}'); var txt = o.join('\n'); if (p.jb._t !== txt) { p.jb.textContent = txt; p.jb._t = txt; } } });
+    p.rows = [0, 1, 2].map(function (i) {
+      var w = el('div', 'abs', root); css(w, { left: '120px', top: (290 + i * 102) + 'px', whiteSpace: 'nowrap' });
+      var bar = el('div', '', w); css(bar, { position: 'absolute', left: '-2px', top: '8px', width: '6px', height: '56px', background: C.acc, borderRadius: '3px', opacity: 0 });
+      var n = el('span', '', w, '0' + (i + 1)); css(n, { font: '500 28px var(--mono)', color: C.acc2, marginLeft: '28px', verticalAlign: 'middle' });
+      var a = bind(el('span', '', w), 'cycle.n' + (i + 1)); css(a, { font: '800 56px var(--sans)', marginLeft: '22px', verticalAlign: 'middle' });
+      var b = bind(el('span', '', w), 'cycle.e' + (i + 1)); css(b, { font: '400 24px var(--mono)', color: C.mute || '#6f6d66', marginLeft: '20px', verticalAlign: 'middle' });
+      return { w: w, bar: bar, n: n, a: a }; });
+    p.box = el('div', 'abs', root); css(p.box, { left: '120px', top: '650px', width: '640px', height: '200px', background: '#131211', border: '1px solid ' + C.line, borderRadius: '18px', padding: '22px 30px' });
+    var bl = bind(el('div', '', p.box), 'cycle.cmd'); css(bl, { font: '600 22px var(--sans)', color: C.ink2, marginBottom: '10px' });
+    p.cm = el('div', '', p.box); css(p.cm, { font: '500 30px/1.6 var(--mono)', whiteSpace: 'pre', color: C.ink });
+    var sv = svg('svg', { width: 1920, height: 1080 }, root); css(sv, { position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }); p.sv = sv;
+    p.cube = [];
+    PLATES.forEach(function (pl, pi) {
+      svg('polygon', { points: pts([PX(pl.x - .3, pl.y - .3, 0), PX(pl.x + 4.3, pl.y - .3, 0), PX(pl.x + 4.3, pl.y + 4.3, 0), PX(pl.x - .3, pl.y + 4.3, 0)]), fill: '#22262a', stroke: '#343a40', 'stroke-width': 1.5 }, sv);
+      var lp = PX(pl.x - .2, pl.y + 4.7, 0), tx = svg('text', { x: 0, y: 0, transform: 'translate(' + lp[0].toFixed(1) + ',' + lp[1].toFixed(1) + ') rotate(30)', fill: '#8a8880', 'font-family': 'ui-monospace,Menlo,Consolas,monospace', 'font-size': 24, 'font-style': 'italic' }, sv); tx.textContent = pl.n;
+      var list = pl.cubes.slice().sort(function (a, b) { return (a[0] + a[1]) - (b[0] + b[1]); });
+      list.forEach(function (c) {
+        var x = pl.x + c[0], y = pl.y + c[1], w = 1.5, d = 1.5, h = c[2];
+        var top = svg('polygon', { points: pts([PX(x, y, h), PX(x + w, y, h), PX(x + w, y + d, h), PX(x, y + d, h)]), fill: '#e9edf0', stroke: '#8f979e', 'stroke-width': 1 }, sv);
+        var lf = svg('polygon', { points: pts([PX(x, y + d, 0), PX(x + w, y + d, 0), PX(x + w, y + d, h), PX(x, y + d, h)]), fill: '#b8c0c7', stroke: '#8f979e', 'stroke-width': 1 }, sv);
+        var rt = svg('polygon', { points: pts([PX(x + w, y, 0), PX(x + w, y + d, 0), PX(x + w, y + d, h), PX(x + w, y, h)]), fill: '#9aa3ab', stroke: '#8f979e', 'stroke-width': 1 }, sv);
+        p.cube.push({ pl: pi, c: c, top: top, lf: lf, rt: rt, topPt: PX(x + w / 2, y + d / 2, h) });
+      }); });
+    p.find = function (pl, ci) { var tc = PLATES[pl].cubes[ci]; return p.cube.filter(function (k) { return k.pl === pl && k.c === tc; })[0]; };
+    p.act = STEPS.map(function (s) { return p.find(s.pl, s.cu); });
+    p.path = [0, 1].map(function (i) { var a = p.act[i].topPt, b = p.act[i + 1].topPt; return prep(svg('path', { d: 'M' + a[0] + ' ' + (a[1] - 6) + ' L' + b[0] + ' ' + (b[1] - 6), fill: 'none', stroke: '#e07a57', 'stroke-width': 2.5, 'stroke-dasharray': '9 8' }, sv)); });
+    p.path.forEach(function (q) { q.style.strokeDasharray = '9 8'; q._l = q.getTotalLength(); });
+    p.tags = STEPS.map(function (s, i) { var tp = p.act[i].topPt, w = 20 + s.tag.length * 15.2;
+      var g = svg('g', {}, sv), ln = svg('line', { x1: tp[0], y1: tp[1] - 8, x2: tp[0], y2: tp[1] - 60, stroke: '#1a95d6', 'stroke-width': 2 }, g);
+      svg('rect', { x: tp[0] - w / 2, y: tp[1] - 100, width: w, height: 42, fill: '#131211', stroke: '#1a95d6', 'stroke-width': 2 }, g);
+      var tt = svg('text', { x: tp[0], y: tp[1] - 71, fill: '#f4f2ec', 'text-anchor': 'middle', 'font-family': 'ui-monospace,Menlo,Consolas,monospace', 'font-size': 25, 'font-weight': 700 }, g); tt.textContent = s.tag; g.style.opacity = 0; return g; });
+  }, render: function (t) { var p = this; p.h.render(t);
+    var act = t < 2 ? -1 : t < 7 ? 0 : t < 12 ? 1 : 2;
+    p.rows.forEach(function (r, i) { var q = ease.out(prog(t, 1 + i * .3, .6)), on = i === act; r.w.style.opacity = (q * (on || act < 0 ? 1 : .32)).toFixed(3); r.w.style.transform = 'translateX(' + ((1 - q) * -20).toFixed(1) + 'px)'; r.bar.style.opacity = on ? 1 : 0; });
+    var cm = act < 0 ? '' : STEPS[act].cmd.join('\n'), start = [2, 7, 12][Math.max(act, 0)], n = act < 0 ? 0 : clamp((t - start - .3) * 26, 0, cm.length) | 0, shown = cm.slice(0, n); if (p.cm._s !== shown) { p.cm.textContent = shown; p.cm._s = shown; }
+    fade(p.box, ease.out(prog(t, 1.4, .6)));
+    p.cube.forEach(function (k) { var on = p.act.indexOf(k) >= 0 && p.act.indexOf(k) <= act; if (k._on !== on) { k._on = on; k.top.setAttribute('fill', on ? '#6cc4f2' : '#e9edf0'); k.lf.setAttribute('fill', on ? '#1a95d6' : '#b8c0c7'); k.rt.setAttribute('fill', on ? '#1276ad' : '#9aa3ab'); } });
+    p.tags.forEach(function (g, i) { g.style.opacity = i === act ? ease.out(prog(t, [2, 7, 12][i] + .4, .5)).toFixed(3) : 0; });
+    p.path.forEach(function (q, i) { draw(q, ease.io(prog(t, [5.8, 10.8][i], 1.4))); q.style.strokeDasharray = prog(t, [5.8, 10.8][i], 1.4) >= .999 ? '9 8' : q._l + ' ' + (q._l + 2); }); } });
 })();
