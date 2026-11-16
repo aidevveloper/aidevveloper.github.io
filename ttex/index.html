@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Work Briefings &middot; TTEx</title>
 <meta name="description" content="TTEx AI Work Briefings">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a95d6'/%3E%3Cpath d='M9 11l6 5-6 5M17 22h7' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-  :root{--bg:#1b1a19;--ink:#f4f2ec;--ink2:#a7a49b;--mute:#6f6d66;--line:#3a3834;--acc:#1a95d6;--acc2:#6cc4f2;--mono:ui-monospace,"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  :root{--bg:#1b1a19;--ink:#f4f2ec;--ink2:#a7a49b;--mute:#6f6d66;--line:#3a3834;--acc:#1a95d6;--acc2:#6cc4f2;--mono:ui-monospace,"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo","Helvetica Neue",Arial,sans-serif}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;background:var(--bg);overflow:hidden}
   body{font-family:var(--sans);color:var(--ink)}
@@ -29,6 +30,10 @@
   #bracket{left:1166px;top:406px;width:14px;height:470px;fill:none;stroke:var(--acc);stroke-width:2.5}
   #cap{left:0;width:1920px;top:930px;text-align:center;font:400 34px var(--sans);color:var(--ink2)}
   #cap b{font-weight:700;color:var(--ink)}
+  #lang{position:fixed;top:16px;right:18px;display:flex;gap:4px;background:rgba(40,38,36,.92);border:1px solid var(--line);padding:4px;border-radius:12px;z-index:6}
+  #lang button{all:unset;cursor:pointer;padding:6px 12px;border-radius:8px;font:600 13px var(--mono);color:var(--ink2);letter-spacing:.04em}
+  #lang button:hover,#lang button:focus-visible{color:var(--ink);background:rgba(255,255,255,.08)}
+  #lang button[aria-pressed="true"]{background:var(--acc);color:#fff}
   #ui{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgba(40,38,36,.92);border:1px solid var(--line);padding:8px 16px;border-radius:14px;backdrop-filter:blur(6px);z-index:5}
   #ui button{all:unset;cursor:pointer;color:var(--ink2);padding:6px 8px;border-radius:8px;font:500 13px var(--mono)}
   #ui button:hover,#ui button:focus-visible{color:var(--ink);background:rgba(255,255,255,.08)}
@@ -39,9 +44,9 @@
 </head>
 <body>
 <div id="stage">
-  <div id="title" class="abs">Bitta kod, ko'p stansiya</div>
-  <div id="sub" class="abs">O'qiydi &nbsp;sozlaydi &nbsp;ishga tushiradi</div>
-  <div id="quote" class="abs">&ldquo;Barcha stansiyalardagi AI servislar uchun yagona source. Kod bitta joyda turadi, har bir stansiya faqat config papkasi.&rdquo;</div>
+  <div id="title" class="abs"></div>
+  <div id="sub" class="abs"></div>
+  <div id="quote" class="abs"></div>
   <div id="src" class="abs">ttex-ai &mdash; README</div>
 
   <svg id="term" class="abs" viewBox="0 0 200 132" fill="none" stroke="#1a95d6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -49,19 +54,21 @@
     <path id="tprompt" d="M24 38 L52 62 L24 86"/>
     <path id="tline" d="M66 90 H108"/>
   </svg>
-  <div id="termlbl" class="abs">Terminal</div>
+  <div id="termlbl" class="abs"></div>
 
-  <div id="ph" class="abs">Kod bazasi</div>
-  <div id="pd" class="abs">Loyihani tashkil etuvchi barcha manba kodi</div>
+  <div id="ph" class="abs"></div>
+  <div id="pd" class="abs"></div>
   <svg id="bracket" class="abs" viewBox="0 0 14 470" preserveAspectRatio="none"><path id="br" d="M12 1 H2 V469 H12"/></svg>
   <div id="tree" class="abs"></div>
 
   <div id="cap" class="abs"></div>
 </div>
 
-<div id="ui" role="group" aria-label="Boshqaruv">
-  <button id="bp" type="button" aria-label="Pauza / davom">&#10074;&#10074;</button>
-  <button id="br2" type="button" aria-label="Qayta boshlash">&#8635; Qayta</button>
+<div id="lang" role="group" aria-label="Language"><button type="button" data-l="ko">KO</button><button type="button" data-l="en">EN</button><button type="button" data-l="uz">UZ</button></div>
+
+<div id="ui" role="group">
+  <button id="bp" type="button">&#10074;&#10074;</button>
+  <button id="br2" type="button"></button>
   <div id="bar"><i></i></div>
   <span id="tm">00:00</span>
 </div>
@@ -90,14 +97,22 @@
     ['├ tests/','',null],
     ['└ tools/','',null]
   ];
-  var CAP=[
-    [3.2,"<b>Terminal</b>dan yagona kod bazasi bilan ishlanadi."],
-    [8.2,"<b>core/</b> da AI kodi: aniqlash, kuzatish, raqam, zona, slot."],
-    [10.4,"<b>sites/</b> da har bir stansiya faqat config va overlay."],
-    [12.8,"Kod bitta joyda, farq faqat <b>sites/</b> ichida."]
-  ];
+  var CAPT=[3.2,8.2,10.4,12.8];
+  var I18N={
+    ko:{title:'하나의 코드, 여러 스테이션',sub:'읽고 설정하고 실행한다',quote:'\u201c모든 스테이션의 AI 서비스를 위한 단일 소스. 코드는 한 곳에 두고, 각 스테이션에는 설정 폴더만 둔다.\u201d',term:'터미널',ph:'코드베이스',pd:'프로젝트를 이루는 소스 코드 전체',replay:'\u21bb 다시',pause:'일시정지 / 재생',
+      cap:['<b>터미널</b>에서 하나의 코드베이스로 작업합니다.','<b>core/</b>에 AI 코드: 감지, 추적, 번호판, 구역, 슬롯.','<b>sites/</b>에는 스테이션별 설정과 overlay만 있습니다.','코드는 한 곳에, 차이는 <b>sites/</b> 안에만 있습니다.'],doc:'TTEx AI Work Briefings'},
+    en:{title:'One codebase, many stations',sub:'Reads, configures, deploys',quote:'\u201cA single source for the AI services at every station. The code lives in one place; each station only gets a config folder.\u201d',term:'Terminal',ph:'Codebase',pd:'All the source code that makes up the project',replay:'\u21bb Replay',pause:'Pause / play',
+      cap:['Work from the <b>terminal</b> on a single codebase.','AI code lives in <b>core/</b>: detect, track, plates, zones, slots.','<b>sites/</b> holds only each station\'s config and overlay.','One codebase; differences live only inside <b>sites/</b>.'],doc:'TTEx AI Work Briefings'},
+    uz:{title:'Bitta kod, ko\'p stansiya',sub:'O\'qiydi \u00a0sozlaydi \u00a0ishga tushiradi',quote:'\u201cBarcha stansiyalardagi AI servislar uchun yagona source. Kod bitta joyda turadi, har bir stansiya faqat config papkasi.\u201d',term:'Terminal',ph:'Kod bazasi',pd:'Loyihani tashkil etuvchi barcha manba kodi',replay:'\u21bb Qayta',pause:'Pauza / davom',
+      cap:['<b>Terminal</b>dan yagona kod bazasi bilan ishlanadi.','<b>core/</b> da AI kodi: aniqlash, kuzatish, raqam, zona, slot.','<b>sites/</b> da har bir stansiya faqat config va overlay.','Kod bitta joyda, farq faqat <b>sites/</b> ichida.'],doc:'TTEx AI Work Briefings'}
+  };
+  var lang='ko';
+  try{var sv=localStorage.getItem('ttexLang');if(sv&&I18N[sv])lang=sv;}catch(e){}
+  var qp=new URLSearchParams(location.search);if(qp.get('lang')&&I18N[qp.get('lang')])lang=qp.get('lang');
+
 
   var $=function(id){return document.getElementById(id);};
+  var CAP=[];
   var stage=$('stage'),title=$('title'),sub=$('sub'),quote=$('quote'),src=$('src'),
       tbox=$('tbox'),tprompt=$('tprompt'),tline=$('tline'),termlbl=$('termlbl'),
       ph=$('ph'),pd=$('pd'),br=$('br'),tree=$('tree'),cap=$('cap'),
@@ -116,6 +131,19 @@
     if(r[1]){var i=document.createElement('i');i.textContent=r[1];d.appendChild(i);}
     tree.appendChild(d);return d;
   });
+
+  function applyLang(l,save){
+    lang=l;var d=I18N[l];
+    document.documentElement.lang=l;document.title=d.doc;
+    title.textContent=d.title;sub.textContent=d.sub;quote.textContent=d.quote;
+    termlbl.textContent=d.term;ph.textContent=d.ph;pd.textContent=d.pd;
+    $('br2').textContent=d.replay;$('bp').setAttribute('aria-label',d.pause);
+    CAP=CAPT.map(function(tt,i){return [tt,d.cap[i]];});cap._h=null;
+    Array.prototype.forEach.call(document.querySelectorAll('#lang button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-l')===l?'true':'false');});
+    if(save){try{localStorage.setItem('ttexLang',l);}catch(e){}}
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#lang button'),function(b){b.onclick=function(){applyLang(b.getAttribute('data-l'),true);};});
+  applyLang(lang,false);
 
   function render(t){
     // sarlavha va izoh
