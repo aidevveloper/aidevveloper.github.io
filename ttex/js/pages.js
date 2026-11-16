@@ -78,6 +78,26 @@
     uz: { t: 'Config sikli', s: 'Uch qadam takrorlanadi', n1: 'Config o\'zgartirish', n2: 'Render', n3: 'Jonli solishtirish', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'buyruq', c1: '<b>sites/</b> dagi configni o\'zgartirasiz.', c2: 'Config pm2 ecosystem\'ga <b>render</b> qilinadi.', c3: 'Render natijasi haqiqiy <b>pm2</b> bilan solishtiriladi.' }
   });
 
+  L('lpr', {
+    ko: { t: '번호판 인식: 세 개의 검출기', s: '차량 → 번호판 → 문자', n1: '차량', n2: '번호판', n3: '문자', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: '코드', lab1: '임계값', note: '예시 값',
+      c0: '<b>run()</b>이 시작되면 카메라 프레임마다 이 흐름을 거칩니다.', c1: '먼저 <b>차량</b>을 찾습니다 (car, truck, bus는 한 클래스).', c2: '그 차량 안의 <b>번호판</b>만 씁니다: 최소 90%가 차량 안에 있어야 합니다.', c3: '번호판을 잘라 <b>문자</b>를 하나씩 검출합니다.' },
+    en: { t: 'Plate reading: three detectors', s: 'Car \u2192 plate \u2192 characters', n1: 'Vehicle', n2: 'Plate', n3: 'Characters', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'code', lab1: 'thresholds', note: 'sample values',
+      c0: 'Once <b>run()</b> starts, every camera frame goes through this chain.', c1: 'First the <b>vehicle</b> is found (car, truck and bus count as one class).', c2: 'Only the <b>plate</b> inside that car is used: at least 90% must lie within the car box.', c3: 'The plate is cropped and each <b>character</b> is detected.' },
+    uz: { t: 'Raqam o\'qish: uchta detektor', s: 'Mashina \u2192 plastinka \u2192 belgilar', n1: 'Mashina', n2: 'Plastinka', n3: 'Belgilar', e1: 'detect car', e2: 'detect plate', e3: 'detect chars', lab0: 'kod', lab1: 'chegaralar', note: 'namuna qiymatlar',
+      c0: '<b>run()</b> ishga tushgach, har kamera kadri shu zanjirdan o\'tadi.', c1: 'Avval <b>mashina</b> topiladi (car, truck, bus bitta sinf).', c2: 'Faqat shu mashina ichidagi <b>plastinka</b> olinadi: kamida 90% mashina ichida bo\'lishi shart.', c3: 'Plastinka kesiladi va har bir <b>belgi</b> alohida aniqlanadi.' }
+  });
+  L('lpr2', {
+    ko: { t: '후처리: 문자에서 결과까지', s: '조립, 검증, 투표', n1: '조립', n2: '검증', n3: '투표', e1: 'assemble', e2: 'format', e3: 'vote', lab0: '코드', lab1: '함수',
+      dd: '한 글자에 두 클래스: 가장 확실한 것만 남김', tl: '번호판 자체 축(PCA)으로 읽기', bad: '이미지 y축으로 읽으면', good: '번호판 축으로 읽으면', sh: '실제 번호판 형태는 세 가지뿐', r1: '한글 두 개', r2: '숫자 그룹 누락', rej: '형식에 맞지 않으면 투표하지 않음', vt: '신뢰도 가중 투표', rd: '읽기', win: '최대 합계가 이김', res: '결과',
+      c1: '<b>조립</b>: 중복 상자를 없애고, 번호판의 기울기에 맞춰 읽습니다.', c2: '<b>검증</b>: 세 가지 번호판 형태 중 하나여야만 후보가 됩니다.', c3: '<b>투표</b>: 같은 차의 모든 읽기에서 신뢰도 합계가 가장 큰 번호판이 이깁니다.' },
+    en: { t: 'Post-processing: from characters to a result', s: 'Assemble, validate, vote', n1: 'Assemble', n2: 'Validate', n3: 'Vote', e1: 'assemble', e2: 'format', e3: 'vote', lab0: 'code', lab1: 'function',
+      dd: 'two classes on one glyph: the most confident stays', tl: 'read along the plate\'s own axis (PCA)', bad: 'reading by image y gives', good: 'reading by the plate axis gives', sh: 'only three real plate shapes exist', r1: 'two hangul', r2: 'missing digit group', rej: 'an invalid shape never votes', vt: 'confidence-weighted vote', rd: 'reads', win: 'the largest total wins', res: 'result',
+      c1: '<b>Assemble</b>: drop duplicate boxes, then read along the plate\'s own tilt.', c2: '<b>Validate</b>: only one of the three real plate shapes can be a candidate.', c3: '<b>Vote</b>: across every read of the same car, the plate with the largest confidence total wins.' },
+    uz: { t: 'Post-processing: matndan natijagacha', s: 'Yig\'ish, tekshirish, ovoz berish', n1: 'Yig\'ish', n2: 'Tekshirish', n3: 'Ovoz berish', e1: 'assemble', e2: 'format', e3: 'vote', lab0: 'kod', lab1: 'funksiya',
+      dd: 'bir belgiga ikki sinf: eng ishonchlisi qoladi', tl: 'plastinkaning o\'z o\'qi (PCA) bo\'yicha o\'qiladi', bad: 'tasvir y bo\'yicha o\'qisa', good: 'plastinka o\'qi bo\'yicha o\'qisa', sh: 'haqiqiy plastinka shakli faqat uchta', r1: 'ikkita hangul', r2: 'raqam guruhi yo\'q', rej: 'yaroqsiz shakl ovoz bermaydi', vt: 'ishonchga vaznli ovoz', rd: 'o\'qishlar', win: 'eng katta yig\'indi yutadi', res: 'natija',
+      c1: '<b>Yig\'ish</b>: takroriy qutilar olib tashlanadi, keyin plastinkaning qiyaligi bo\'yicha o\'qiladi.', c2: '<b>Tekshirish</b>: faqat uchta haqiqiy shakldan biriga mos kelsa nomzod bo\'ladi.', c3: '<b>Ovoz</b>: bir mashinaning barcha o\'qishlari ichida ishonch yig\'indisi eng katta raqam yutadi.' }
+  });
+
   // ───────────────── p01: tuzilma ─────────────────
   var ROWS = [['ttex-ai/', '', null], ['├ ttex_ai/', '', null], ['│ ├ core/', 'detect · track · plates · zones · slots', [8.2, 10]], ['│ ├ apps/', 'station · carwash · human · safety', null], ['│ └ cli.py · deploy.py · pm2.py', '', null], ['├ sites/', '', [10.4, 12.4]], ['│ ├ <site-A>/', 'site.yaml · overlay/', null], ['│ └ <site-B>/', 'site.yaml · overlay/', null], ['├ engines.yaml', '', null], ['├ deploy/', '', null], ['├ docs/', '', null], ['├ tests/', '', null], ['└ tools/', '', null]];
   D.page({ id: 'p01', dur: 15, caps: [[3.2, 'p01.c1'], [8.2, 'p01.c2'], [10.4, 'p01.c3'], [12.8, 'p01.c4']], setup: function (root, p) {
@@ -163,6 +183,123 @@
     p.arrows.forEach(function (a) { var st = a.lane ? 8.4 : 1.4; draw(a.a, ease.out(prog(t, st + .3 + a.i * .45, .4))); });
     [0, 1].forEach(function (li) { var st = li ? 11.2 : 4.2, q = prog(t, st, 3), d = p.dots[li]; d.setAttribute('cx', (260 + q * 1400).toFixed(1)); d.setAttribute('cy', (li ? 680 : 360)); d.style.opacity = q > 0 && q < 1 ? 1 : 0; });
     fade(p.c1, ease.out(prog(t, 3, .6))); fade(p.c2, ease.out(prog(t, 9.8, .6))); } });
+
+  // ───────────────── umumiy chap panel (p04 uslubi): raqamlangan qadamlar + kod qutisi ─────────────────
+  function stepsPanel(root, p, id) {
+    p.rows = [0, 1, 2].map(function (i) {
+      var w = el('div', 'abs', root); css(w, { left: '120px', top: (290 + i * 102) + 'px', whiteSpace: 'nowrap' });
+      var bar = el('div', '', w); css(bar, { position: 'absolute', left: '-2px', top: '8px', width: '6px', height: '56px', background: C.acc, borderRadius: '3px', opacity: 0 });
+      var n = el('span', '', w, '0' + (i + 1)); css(n, { font: '500 28px var(--mono)', color: C.acc2, marginLeft: '28px', verticalAlign: 'middle' });
+      var a = bind(el('span', '', w), id + '.n' + (i + 1)); css(a, { font: '800 56px var(--sans)', marginLeft: '22px', verticalAlign: 'middle' });
+      var b = bind(el('span', '', w), id + '.e' + (i + 1)); css(b, { font: '400 24px var(--mono)', color: '#6f6d66', marginLeft: '20px', verticalAlign: 'middle' });
+      return { w: w, bar: bar }; });
+    p.box = el('div', 'abs', root); css(p.box, { left: '120px', top: '640px', width: '660px', height: '210px', background: '#131211', border: '1px solid ' + C.line, borderRadius: '18px', padding: '22px 30px' });
+    p.lab = el('div', '', p.box); css(p.lab, { font: '600 22px var(--sans)', color: C.ink2, marginBottom: '10px' });
+    p.cm = el('div', '', p.box); css(p.cm, { font: '500 28px/1.6 var(--mono)', whiteSpace: 'pre', color: C.ink });
+  }
+  function stepsRender(p, id, t, act, starts, texts, labels) {
+    p.rows.forEach(function (r, i) { var q = ease.out(prog(t, .8 + i * .3, .6)), on = i === act; r.w.style.opacity = (q * (on || act < 0 ? 1 : .32)).toFixed(3); r.w.style.transform = 'translateX(' + ((1 - q) * -20).toFixed(1) + 'px)'; r.bar.style.opacity = on ? 1 : 0; });
+    var k = Math.max(act, -1), txt = texts[k + 1], st = starts[k + 1], n = clamp((t - st - .2) * 30, 0, txt.length) | 0, shown = txt.slice(0, n);
+    var lb = D.T(id + '.' + labels[k + 1]); if (p.lab._l !== lb) { p.lab.textContent = lb; p.lab._l = lb; } if (p.cm._s !== shown) { p.cm.textContent = shown; p.cm._s = shown; }
+    fade(p.box, ease.out(prog(t, 1, .6)));
+  }
+  var MONO = 'ui-monospace,Menlo,Consolas,monospace', SANS = 'system-ui,"Noto Sans KR","Malgun Gothic",sans-serif';
+  var T_ = function (parent, x, y, str, o) { o = o || {}; var e = svg('text', { x: x, y: y, fill: o.fill || '#f4f2ec', 'text-anchor': o.anchor || 'start', 'font-family': o.mono ? MONO : SANS, 'font-size': o.size || 24, 'font-weight': o.weight || 500 }, parent); e.textContent = str; return e; };
+
+  // ───────────────── lpr: kaskad ─────────────────
+  var PL = ['1', '2', '가', '3', '4', '5', '6'], PX0 = 470, PDX = 68, PC = [.97, .99, .88, .98, .96, .99, .97];
+  D.page({ id: 'lpr', dur: 24, caps: [[.8, 'lpr.c0'], [4, 'lpr.c1'], [9, 'lpr.c2'], [14, 'lpr.c3']], setup: function (root, p) {
+    p.h = D.head(p, root); stepsPanel(root, p, 'lpr');
+    var sv = svg('svg', { viewBox: '0 0 940 600', width: 940, height: 600 }, root); css(sv, { position: 'absolute', left: '880px', top: '230px', overflow: 'visible' });
+    var W = p.W = svg('g', {}, sv); var g = p.car = svg('g', {}, W);
+    svg('ellipse', { cx: 470, cy: 492, rx: 340, ry: 22, fill: '#131517' }, g);
+    [[150, 392], [700, 392]].forEach(function (q) { svg('rect', { x: q[0], y: q[1], width: 90, height: 96, rx: 14, fill: '#0c0c0d' }, g); });
+    svg('rect', { x: 130, y: 280, width: 680, height: 170, rx: 38, fill: '#e9edf0' }, g);
+    svg('path', { d: 'M232 284 L292 154 Q302 132 332 132 H608 Q638 132 648 154 L708 284 Z', fill: '#e9edf0' }, g);
+    svg('path', { d: 'M262 274 L308 164 H632 L678 274 Z', fill: '#1c2630' }, g);
+    [[160, 322], [670, 322]].forEach(function (q) { svg('rect', { x: q[0], y: q[1], width: 110, height: 42, rx: 14, fill: '#cfd6dc', stroke: '#9aa3ab', 'stroke-width': 2 }, g); });
+    svg('rect', { x: 350, y: 330, width: 240, height: 50, rx: 10, fill: '#aeb6bd' }, g);
+    svg('rect', { x: 200, y: 396, width: 540, height: 38, rx: 12, fill: '#cfd6dc' }, g);
+    svg('rect', { x: 395, y: 398, width: 150, height: 34, rx: 4, fill: '#f6f4ee', stroke: '#555', 'stroke-width': 1.5 }, g); T_(g, 470, 424, '12가3456', { anchor: 'middle', size: 25, weight: 800, fill: '#1b1a19', mono: true });
+    p.cb = prep(svg('rect', { x: 104, y: 104, width: 732, height: 396, rx: 6, fill: 'none', stroke: C.acc2, 'stroke-width': 4 }, W));
+    p.cl = svg('g', {}, W); svg('rect', { x: 104, y: 70, width: 150, height: 34, fill: C.acc2 }, p.cl); T_(p.cl, 114, 95, 'car 0.91', { size: 22, weight: 700, fill: '#10202b', mono: true });
+    p.pb = prep(svg('rect', { x: 384, y: 390, width: 172, height: 52, rx: 4, fill: 'none', stroke: C.warn, 'stroke-width': 3.5 }, W));
+    p.pl = svg('g', {}, W); svg('rect', { x: 384, y: 358, width: 170, height: 32, fill: C.warn }, p.pl); T_(p.pl, 394, 382, 'plate 0.88', { size: 21, weight: 700, fill: '#2b1e05', mono: true });
+    p.zl = [svg('path', { d: 'M417 314 L212 408', fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, sv), svg('path', { d: 'M523 314 L728 408', fill: 'none', stroke: C.warn, 'stroke-width': 2, 'stroke-dasharray': '7 7' }, sv)];
+    
+    var bg = p.big = svg('g', {}, sv);
+    svg('rect', { x: 210, y: 400, width: 520, height: 140, rx: 14, fill: '#f6f4ee', stroke: '#777', 'stroke-width': 3 }, bg);
+    PL.forEach(function (ch, i) { T_(bg, PX0 + (i - 3) * PDX, 498, ch, { anchor: 'middle', size: i === 2 ? 60 : 68, weight: 800, fill: '#1b1a19', mono: true }); });
+    p.chb = PL.map(function (ch, i) { var hg = i === 2, x = PX0 + (i - 3) * PDX - 28; var r = prep(svg('rect', { x: x, y: 418, width: 56, height: 104, rx: 4, fill: 'none', stroke: hg ? C.warn : C.acc, 'stroke-width': 3.5 }, sv)); var c = T_(sv, x + 28, 566, PC[i].toFixed(2), { anchor: 'middle', size: 21, mono: true, fill: hg ? C.warn : C.acc2 }); c.style.opacity = 0; return { r: r, c: c }; });
+    p.rs = [T_(sv, 210, 610, '', { mono: true, size: 28, fill: '#f4f2ec', weight: 700 }), T_(sv, 210, 648, '', { mono: true, size: 24, fill: C.ink2 })];
+    p.nt = bind(el('div', 'abs', root), 'lpr.note'); css(p.nt, { left: '1580px', top: '890px', font: '400 20px var(--sans)', color: '#6f6d66' });
+  }, render: function (t) { var p = this; p.h.render(t);
+    var act = t < 4 ? -1 : t < 9 ? 0 : t < 14 ? 1 : 2;
+    stepsRender(p, 'lpr', t, act, [.8, 4, 9, 14], ['ttex_ai.run("station", cfg, part="cams")', 'det_conf 0.5 \u00b7 IoU 0.45', 'plate_conf 0.15 \u00b7 inside \u2265 90%', 'char_conf 0.30 \u00b7 crop +5%'], ['lab0', 'lab1', 'lab1', 'lab1']);
+    var kz = 1 - .38 * ease.io(prog(t, 10.8, .8)); p.W.setAttribute('transform', 'translate(470,100) scale(' + kz.toFixed(3) + ') translate(-470,-100)');
+    fade(p.car, ease.out(prog(t, 2, .8))); draw(p.cb, ease.out(prog(t, 4.4, 1.2))); fade(p.cl, ease.out(prog(t, 5.6, .4)));
+    draw(p.pb, ease.out(prog(t, 9.4, .8))); fade(p.pl, ease.out(prog(t, 10.2, .4)));
+    p.zl.forEach(function (q) { fade(q, ease.out(prog(t, 11.2, .6))); });
+    fade(p.big, ease.out(prog(t, 11.6, .7))); p.big.setAttribute('transform', 'translate(0,' + ((1 - ease.out(prog(t, 11.6, .7))) * 14).toFixed(1) + ')');
+    p.chb.forEach(function (c, i) { draw(c.r, ease.out(prog(t, 14.4 + i * .42, .4))); fade(c.c, ease.out(prog(t, 14.8 + i * .42, .3))); });
+    var r1 = 'text: "12\uac00' + '3456"', r2 = 'conf 0.97 \u00b7 hangul_conf 0.88'; var n1 = clamp((t - 18.2) * 30, 0, r1.length) | 0, n2 = clamp((t - 19.2) * 30, 0, r2.length) | 0; p.rs[0].textContent = r1.slice(0, n1); p.rs[1].textContent = r2.slice(0, n2);
+    fade(p.nt, ease.out(prog(t, 18, .6))); } });
+
+  // ───────────────── lpr2: post-processing ─────────────────
+  D.page({ id: 'lpr2', dur: 28, caps: [[4, 'lpr2.c1'], [10.4, 'lpr2.c2'], [17.6, 'lpr2.c3']], setup: function (root, p) {
+    p.h = D.head(p, root); stepsPanel(root, p, 'lpr2');
+    var sv = svg('svg', { viewBox: '0 0 940 600', width: 940, height: 600 }, root); css(sv, { position: 'absolute', left: '880px', top: '310px', overflow: 'visible' });
+    // 1) yig'ish
+    var g1 = p.g1 = svg('g', {}, sv);
+    p.dd = bind(el('div', 'abs', root), 'lpr2.dd'); css(p.dd, { left: '880px', top: '222px', width: '400px', font: '600 24px/1.3 var(--sans)', color: C.acc2 });
+    svg('rect', { x: 20, y: 36, width: 200, height: 130, rx: 12, fill: '#f6f4ee', stroke: '#777', 'stroke-width': 3 }, g1); T_(g1, 120, 140, '보', { anchor: 'middle', size: 110, weight: 800, fill: '#1b1a19' });
+    p.d1 = svg('g', {}, g1); svg('rect', { x: 36, y: 46, width: 168, height: 112, fill: 'none', stroke: C.acc, 'stroke-width': 4 }, p.d1); svg('rect', { x: 36, y: 4, width: 130, height: 34, fill: C.acc }, p.d1); T_(p.d1, 44, 29, '\ubcf4  0.55', { size: 21, weight: 700, fill: '#082433', mono: true });
+    p.d2 = svg('g', {}, g1); svg('rect', { x: 36, y: 46, width: 168, height: 112, fill: 'none', stroke: '#c0463a', 'stroke-width': 3, 'stroke-dasharray': '9 6' }, p.d2); svg('rect', { x: 36, y: 170, width: 130, height: 34, fill: '#c0463a' }, p.d2); T_(p.d2, 44, 195, '\ub108  0.36 \u2717', { size: 21, weight: 700, fill: '#fff', mono: true });
+    p.tl = bind(el('div', 'abs', root), 'lpr2.tl'); css(p.tl, { left: '1360px', top: '222px', width: '440px', font: '600 24px/1.3 var(--sans)', color: C.acc2 });
+    var tp = p.tp = svg('g', { transform: 'translate(700,120) rotate(-14)' }, g1); svg('rect', { x: -150, y: -50, width: 300, height: 100, rx: 10, fill: '#f6f4ee', stroke: '#777', 'stroke-width': 3 }, tp); '05\uc11c0331'.split('').forEach(function (ch, i) { T_(tp, -118 + i * 40, 24, ch, { anchor: 'middle', size: 62, weight: 800, fill: '#1b1a19', mono: true }); });
+    p.ax = prep(svg('path', { d: 'M535 200 L865 120 M845 112 L865 120 L846 132', fill: 'none', stroke: C.ok, 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, g1));
+    p.bd = el('div', 'abs', root); css(p.bd, { left: '880px', top: '556px', font: '400 22px var(--sans)', color: C.ink2 }); bind(el('span', '', p.bd), 'lpr2.bad'); p.bs = el('span', '', p.bd); p.bs.textContent = '  033105\uc11c'; css(p.bs, { font: '700 32px ' + MONO, color: '#c0463a', textDecoration: 'line-through', marginLeft: '14px' });
+    p.gd = el('div', 'abs', root); css(p.gd, { left: '880px', top: '610px', font: '400 22px var(--sans)', color: C.ink2 }); bind(el('span', '', p.gd), 'lpr2.good'); p.gs = el('span', '', p.gd); p.gs.textContent = '  05\uc11c0331'; css(p.gs, { font: '700 32px ' + MONO, color: C.ok, marginLeft: '14px' });
+    // 2) format
+    var g2 = p.g2 = svg('g', {}, sv);
+    p.sh = bind(el('div', 'abs', root), 'lpr2.sh'); css(p.sh, { left: '880px', top: '246px', font: '600 26px var(--sans)', color: C.acc2 });
+    var SH = [['\\d{2}[\uac00-\ud7a3]\\d{4}', '12\uac00' + '3456'], ['\\d{3}[\uac00-\ud7a3]\\d{4}', '123\ud558' + '4567'], ['[\uac00-\ud7a3]{1,2}\\d{2}[\uac00-\ud7a3]\\d{4}', '\ubd80\uc0b032\ubc140469']];
+    p.shr = SH.map(function (r, i) { var y = 30 + i * 74, g = svg('g', {}, g2); svg('rect', { x: 0, y: y, width: 900, height: 60, rx: 12, fill: '#1c1e20', stroke: C.line }, g); T_(g, 20, y + 39, r[0], { mono: true, size: 24, fill: C.ink2 }); T_(g, 800, y + 40, r[1], { mono: true, size: 30, weight: 700, anchor: 'end' }); var ck = T_(g, 880, y + 42, '\u2713', { size: 34, weight: 800, fill: C.ok, anchor: 'end' }); return { g: g, ck: ck }; });
+    p.rj = bind(el('div', 'abs', root), 'lpr2.rej'); css(p.rj, { left: '880px', top: '616px', font: '600 24px var(--sans)', color: '#c0463a' });
+    var RJ = [['12\ud558\ud5c93456', 'lpr2.r1'], ['1\ub2e423', 'lpr2.r2']];
+    p.rjr = RJ.map(function (r, i) { var y = 320 + i * 66, g = svg('g', {}, g2); svg('rect', { x: 0, y: y, width: 900, height: 56, rx: 12, fill: '#241a19', stroke: '#5a2a25' }, g); T_(g, 20, y + 38, r[0], { mono: true, size: 30, weight: 700, fill: '#e08a80' }); var d = svg('g', {}, g); var tt = T_(d, 880, y + 36, '', { size: 22, fill: '#e08a80', anchor: 'end' }); tt._k = r[1]; T_(d, 560, y + 38, '\u2717', { size: 32, weight: 800, fill: '#c0463a' }); return { g: g, tt: tt }; });
+    // 3) ovoz
+    var g3 = p.g3 = svg('g', {}, sv);
+    p.vt = bind(el('div', 'abs', root), 'lpr2.vt'); css(p.vt, { left: '880px', top: '246px', font: '600 26px var(--sans)', color: C.acc2 });
+    var RD = [['12\uac003456', '0.91', 'cam1'], ['12\uac003456', '0.95', 'cam2'], ['12\uac003456', '0.88', 'cam1'], ['12\uac003466', '0.62', 'cam1']];
+    p.rdr = RD.map(function (r, i) { var y = 30 + i * 50, g = svg('g', {}, g3); T_(g, 0, y + 30, r[0], { mono: true, size: 26, weight: 700 }); T_(g, 220, y + 30, r[1], { mono: true, size: 26, fill: C.acc2 }); T_(g, 320, y + 30, r[2], { mono: true, size: 22, fill: C.ink2 }); return g; });
+    p.bar = [{ y: 262, w: 2.74, c: C.ok, l: '12\uac003456  \u03a3 2.74  (3)' }, { y: 312, w: .62, c: C.grey, l: '12\uac003466  \u03a3 0.62  (1)' }].map(function (b) { var r = svg('rect', { x: 0, y: b.y, width: 0, height: 34, rx: 6, fill: b.c }, g3); var t2 = T_(g3, 12, b.y + 25, b.l, { mono: true, size: 21, weight: 700, fill: '#0e1a14' }); t2.style.opacity = 0; if (b.c === C.grey) t2.setAttribute('fill', '#f4f2ec'); return { r: r, t: t2, w: b.w }; });
+    p.rt = [T_(g3, 0, 440, '', { mono: true, size: 26, weight: 700, fill: '#f4f2ec' }), T_(g3, 0, 482, '', { mono: true, size: 24, fill: C.ink2 })];
+    p.win = bind(el('div', 'abs', root), 'lpr2.win'); css(p.win, { left: '1480px', top: '628px', font: '600 22px var(--sans)', color: C.ok });
+    p.ng = [p.g1, p.g2, p.g3];
+  }, render: function (t) { var p = this; p.h.render(t);
+    var act = t < 4 ? -1 : t < 10.4 ? 0 : t < 17.6 ? 1 : 2;
+    stepsRender(p, 'lpr2', t, act, [.8, 4, 10.4, 17.6], ['reads = [reader.read(f, box) ...]', 'assemble_chars(dets)', 'is_valid_plate_format(text)', 'vote(reads)'], ['lab0', 'lab1', 'lab1', 'lab1']);
+    // ko'rinish: faol qadam guruhi
+    var vis = [act === 0, act === 1, act === 2];
+    [p.g1, p.g2, p.g3].forEach(function (g, i) { var s0 = [4, 10.4, 17.6][i], q = vis[i] ? ease.out(prog(t, s0, .5)) : 0; g.style.opacity = q.toFixed(3); });
+    [[p.dd, p.tl, p.bd, p.gd], [p.sh, p.rj], [p.vt, p.win]].forEach(function (grp, i) { grp.forEach(function (e) { e.style.opacity = vis[i] ? (parseFloat(e._a || 1)).toFixed(2) : 0; }); });
+    // 1) yig'ish
+    var q1 = ease.out(prog(t, 4.4, .6)); p.dd.style.opacity = vis[0] ? q1.toFixed(2) : 0;
+    p.d1.style.opacity = ease.out(prog(t, 4.8, .5)).toFixed(2); p.d2.style.opacity = ease.out(prog(t, 5.4, .5)) * (t > 6.6 ? 1 - .75 * prog(t, 6.6, .6) : 1);
+    var q2 = ease.out(prog(t, 7.2, .6)); p.tl.style.opacity = vis[0] ? q2.toFixed(2) : 0; p.tp.style.opacity = q2.toFixed(2); draw(p.ax, ease.out(prog(t, 7.8, .8)));
+    p.bd.style.opacity = vis[0] ? ease.out(prog(t, 8.6, .5)).toFixed(2) : 0; p.gd.style.opacity = vis[0] ? ease.out(prog(t, 9.2, .5)).toFixed(2) : 0;
+    // 2) format
+    p.sh.style.opacity = vis[1] ? ease.out(prog(t, 10.8, .5)).toFixed(2) : 0;
+    p.shr.forEach(function (r, i) { var q = ease.out(prog(t, 11.2 + i * .6, .5)); r.g.style.opacity = q.toFixed(2); r.ck.style.opacity = ease.out(prog(t, 12.2 + i * .6, .3)).toFixed(2); });
+    p.rj.style.opacity = vis[1] ? ease.out(prog(t, 14.2, .5)).toFixed(2) : 0;
+    p.rjr.forEach(function (r, i) { r.g.style.opacity = ease.out(prog(t, 14.6 + i * .7, .5)).toFixed(2); r.tt.textContent = D.T(r.tt._k); });
+    // 3) ovoz
+    p.vt.style.opacity = vis[2] ? ease.out(prog(t, 18, .5)).toFixed(2) : 0;
+    p.rdr.forEach(function (g, i) { g.style.opacity = ease.out(prog(t, 18.4 + i * .5, .4)).toFixed(2); });
+    p.bar.forEach(function (b, i) { var q = ease.out(prog(t, 20.8 + i * .5, .9)); b.r.setAttribute('width', (b.w / 2.74 * 560 * q).toFixed(1)); b.t.style.opacity = q > .6 ? 1 : 0; });
+    p.win.style.opacity = vis[2] ? ease.out(prog(t, 22.6, .5)).toFixed(2) : 0;
+    var r1 = '{"plate":"12\uac003456","conf":0.913,', r2 = '"cams":["cam1","cam2"],"n":3}  \u2192 gid_slots.json'; p.rt[0].textContent = r1.slice(0, clamp((t - 23.2) * 34, 0, r1.length) | 0); p.rt[1].textContent = r2.slice(0, clamp((t - 24.4) * 34, 0, r2.length) | 0); } });
 
   // ───────────────── p05: carwash ─────────────────
   D.page({ id: 'p05', dur: 15, caps: [[3.6, 'p05.c1'], [9.2, 'p05.c2']], setup: function (root, p) {
