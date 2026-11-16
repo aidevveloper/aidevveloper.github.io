@@ -56,6 +56,15 @@
     uz: { t: 'Chiqarish va qaytarish', s: 'Stansiyaga faqat tag chiqadi', n1: 'Tekshirish', n2: 'Chiqarish', n3: 'Qaytarish', d1: 'CI shuni ishlatadi', d2: 'Tag (vX.Y.Z) bilan, branch emas', d3: 'current symlink oldingi release\'ga qaytadi', end: 'Bitta kod bazasi · faqat config stansiyaga xos · tag bilan deploy' }
   });
 
+  L('p08', {
+    ko: { t: '3D 디지털 트윈', s: '슬롯 상태를 3D로 본다', mock: '예시 데이터 (mock)', empty: '비어 있음', wash0: '세차장 · 대기', wash1: '세차장 · 1대 대기', wash2: '세차장 · 세척 중',
+      c1: '<b>ttex-ai</b> 출력(<b>gid_slots.json</b>)이 3D 장면을 움직입니다.', c2: '여기서는 예시 데이터입니다. 실제 트윈은 라이브 API를 읽습니다.' },
+    en: { t: '3D digital twin', s: 'See the slot state in 3D', mock: 'sample data (mock)', empty: 'empty', wash0: 'wash · idle', wash1: 'wash · 1 waiting', wash2: 'wash · in progress',
+      c1: '<b>ttex-ai</b> output (<b>gid_slots.json</b>) drives the 3D scene.', c2: 'The data here is a mock; the real twin reads a live API.' },
+    uz: { t: '3D digital twin', s: 'Slot holati 3D da', mock: 'namunaviy ma\'lumot (mock)', empty: 'bo\'sh', wash0: 'moyka · bo\'sh', wash1: 'moyka · 1 ta kutmoqda', wash2: 'moyka · yuvilmoqda',
+      c1: '<b>ttex-ai</b> chiqishi (<b>gid_slots.json</b>) 3D sahnani boshqaradi.', c2: 'Bu yerda ma\'lumot namunaviy; haqiqiy twin jonli API\'dan oladi.' }
+  });
+
   // ───────────────── p01: tuzilma ─────────────────
   var ROWS = [['ttex-ai/', '', null], ['├ ttex_ai/', '', null], ['│ ├ core/', 'detect · track · plates · zones · slots', [8.2, 10]], ['│ ├ apps/', 'station · carwash · human · safety', null], ['│ └ cli.py · deploy.py · pm2.py', '', null], ['├ sites/', '', [10.4, 12.4]], ['│ ├ <site-A>/', 'site.yaml · overlay/', null], ['│ └ <site-B>/', 'site.yaml · overlay/', null], ['├ engines.yaml', '', null], ['├ deploy/', '', null], ['├ docs/', '', null], ['├ tests/', '', null], ['└ tools/', '', null]];
   D.page({ id: 'p01', dur: 15, caps: [[3.2, 'p01.c1'], [8.2, 'p01.c2'], [10.4, 'p01.c3'], [12.8, 'p01.c4']], setup: function (root, p) {
@@ -194,4 +203,22 @@
     var s = svg('svg', { width: 1920, height: 1080 }, root); css(s, { position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }); p.ar = [0, 1].map(function (i) { var x = 650 + i * 590; return prep(svg('path', { d: 'M' + x + ' 420 H' + (x + 60) + ' M' + (x + 44) + ' 402 L' + (x + 60) + ' 420 L' + (x + 44) + ' 438', fill: 'none', stroke: C.mute || '#6f6d66', 'stroke-width': 4, 'stroke-linecap': 'round' }, s)); });
     p.end = bind(el('div', 'abs', root), 'p07.end'); css(p.end, { left: 0, width: '1920px', top: '860px', textAlign: 'center', font: '700 40px var(--sans)', color: C.ink });
   }, render: function (t) { var p = this; p.h.render(t); p.st.forEach(function (s) { rise(s.g, ease.out(prog(t, 1 + s.i * 3.2, .7)), 26); s.tm.render(t); }); p.ar.forEach(function (a, i) { draw(a, ease.out(prog(t, 3.4 + i * 3.2, .5))); }); rise(p.end, ease.out(prog(t, 11.5, .8)), 16); } });
+
+  // ───────────────── p08: 3D digital twin (namunaviy ma'lumot) ─────────────────
+  D.page({ id: 'p08', dur: 21, caps: [[2, 'p08.c1'], [15, 'p08.c2']], setup: function (root, p) {
+    p.h = D.head(p, root);
+    p.bx = el('div', 'abs', root); css(p.bx, { left: '120px', top: '250px', width: '1180px', height: '640px', overflow: 'hidden', borderRadius: '18px', border: '1px solid #3a3834', background: '#14181c' });
+    p.cv = el('canvas', '', p.bx); p.cv.width = 1770; p.cv.height = 960; css(p.cv, { position: 'absolute', left: 0, top: 0, width: '1180px', height: '640px' });
+    p.mock = bind(el('span', 'pill warn', p.bx), 'p08.mock'); css(p.mock, { position: 'absolute', left: '18px', bottom: '16px', background: 'rgba(20,24,28,.8)', fontSize: '18px' });
+    p.js = el('div', 'term abs', root); css(p.js, { left: '1340px', top: '250px', width: '460px', height: '640px' });
+    var bar = el('div', 'bar', p.js); el('i', '', bar); el('i', '', bar); el('i', '', bar); el('span', '', bar, 'gid_slots.json');
+    p.jb = el('div', 'body', p.js); css(p.jb, { font: '400 21px/1.55 var(--mono)', padding: '18px 22px' });
+    p.ready = false;
+    import('./twin.js').then(function (m) { p.tw = m.createTwin({ canvas: p.cv, w: 1770, h: 960, labelsRoot: p.bx, box: { w: 1180, h: 640 } }); p.ready = true; })
+      .catch(function (e) { var n = el('div', 'note', p.bx, 'WebGL: ' + (e && e.message || e)); css(n, { left: '30px', top: '280px', width: '1000px' }); });
+  }, render: function (t) { var p = this; p.h.render(t); rise(p.bx, ease.out(prog(t, .8, .8)), 24); rise(p.js, ease.out(prog(t, 1.2, .8)), 24);
+    if (!p.ready) return; var st = p.tw.update(t, D.T);
+    var o = ['{', '  "ts": ' + (1731747600 + (t | 0)) + ',', '  "slots": {'];
+    st.slots.forEach(function (s, i) { o.push('    "Slot-' + (i + 1) + '": ' + (s ? '{' : 'null') + (s ? '' : (i < 3 ? ',' : ''))); if (s) { o.push('      "plate": "' + s.plate + '",'); o.push('      "since": ' + Math.floor(s.since) + (i < 3 ? '},' : '}')); } });
+    o.push('  }', '}'); var txt = o.join('\n'); if (p.jb._t !== txt) { p.jb.textContent = txt; p.jb._t = txt; } } });
 })();
