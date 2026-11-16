@@ -75,7 +75,7 @@
   L('cycle', {
     ko: { t: '설정 루프', s: '세 단계를 반복한다', n1: '설정 수정', n2: '렌더', n3: '라이브 비교', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: '명령', c1: '<b>sites/</b>의 설정을 고칩니다.', c2: '설정을 pm2 ecosystem으로 <b>렌더</b>합니다.', c3: '렌더 결과와 실제 <b>pm2</b>를 비교합니다.' },
     en: { t: 'The config loop', s: 'Three steps, repeated', n1: 'Edit config', n2: 'Render', n3: 'Compare live', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'command', c1: 'Edit the config under <b>sites/</b>.', c2: '<b>Render</b> the config into a pm2 ecosystem.', c3: 'Compare the render with the live <b>pm2</b>.' },
-    uz: { t: 'Config sikli', s: 'Uch qadam takrorlanadi', n1: 'Config o\'zgartirish', n2: 'Render', n3: 'Jonli bilan solishtirish', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'buyruq', c1: '<b>sites/</b> dagi configni o\'zgartirasiz.', c2: 'Config pm2 ecosystem\'ga <b>render</b> qilinadi.', c3: 'Render natijasi haqiqiy <b>pm2</b> bilan solishtiriladi.' }
+    uz: { t: 'Config sikli', s: 'Uch qadam takrorlanadi', n1: 'Config o\'zgartirish', n2: 'Render', n3: 'Jonli solishtirish', e1: 'edit config', e2: 'render pm2', e3: 'diff live', cmd: 'buyruq', c1: '<b>sites/</b> dagi configni o\'zgartirasiz.', c2: 'Config pm2 ecosystem\'ga <b>render</b> qilinadi.', c3: 'Render natijasi haqiqiy <b>pm2</b> bilan solishtiriladi.' }
   });
 
   // ───────────────── p01: tuzilma ─────────────────
@@ -220,8 +220,8 @@
     p.bar = el('div', 'abs', root); css(p.bar, { left: '120px', top: '800px', width: '1000px', height: '92px', border: '2px solid ' + C.acc, borderRadius: '16px', background: '#131211', display: 'flex', alignItems: 'center', padding: '0 34px', font: '500 34px var(--mono)', color: C.ink });
     p.arr = el('span', '', p.bar, '▸▸'); css(p.arr, { color: C.acc2, marginRight: '22px' }); p.txt = el('span', '', p.bar, '');
     p.dots = [0, 1, 2].map(function (i) { var d = el('div', 'abs', root); css(d, { left: (1240 + i * 190) + 'px', top: '822px', width: '170px', textAlign: 'center', font: '700 24px var(--mono)', color: '#5c5a54' }); d.textContent = ['SHADOW', 'PUBLISH', 'LIVE'][i]; return d; });
-    p.ln = el('div', 'abs', root); css(p.ln, { left: '1250px', top: '868px', height: '5px', width: '0', background: C.acc, borderRadius: '3px' });
     p.base = el('div', 'abs', root); css(p.base, { left: '1250px', top: '868px', height: '5px', width: '530px', background: C.line, borderRadius: '3px' });
+    p.ln = el('div', 'abs', root); css(p.ln, { left: '1250px', top: '868px', height: '5px', width: '0', background: C.acc, borderRadius: '3px' });
   }, render: function (t) { var p = this; p.h.render(t);
     var act = t < 4 ? -1 : t < 8 ? 0 : t < 12 ? 1 : 2;
     p.cards.forEach(function (c, i) { var q = ease.out(prog(t, 1.2 + i * .55, .7)); c.style.opacity = q.toFixed(3); var up = i === act ? -10 : 0; c.style.transform = 'translateY(' + ((1 - q) * 30 + up).toFixed(1) + 'px)'; c.style.borderColor = i === act ? C.acc : C.line; c.style.boxShadow = i === act ? '0 0 0 2px rgba(26,149,214,.25), 0 18px 40px rgba(0,0,0,.35)' : 'none'; });
@@ -250,19 +250,19 @@
     { f: 'engines.yaml', fill: '#3a3834', ink: '#f4f2ec', col: '#a7a49b', k: 'l4' }];
   D.page({ id: 'layers', dur: 15, caps: [[2, 'layers.c1'], [9, 'layers.c2']], setup: function (root, p) {
     p.h = D.head(p, root);
-    var iso = el('div', 'abs', root); css(iso, { left: '330px', top: '330px', width: '640px', height: '400px', transform: 'rotateX(58deg) rotateZ(-34deg)', transformStyle: 'preserve-3d' });
+    var iso = el('div', 'abs', root); css(iso, { left: '330px', top: '380px', width: '640px', height: '400px', transform: 'rotateX(58deg) rotateZ(-34deg)', transformStyle: 'preserve-3d' });
     p.ls = LAYER.map(function (L0, i) {
       var c = el('div', '', iso); css(c, { position: 'absolute', left: 0, top: 0, width: '640px', height: '400px', borderRadius: '26px', background: L0.fill, boxShadow: '0 0 0 1px rgba(255,255,255,.08)', color: L0.ink });
       var bar = el('div', '', c); css(bar, { position: 'absolute', left: '36px', top: '34px', width: '70px', height: '10px', borderRadius: '5px', background: L0.ink, opacity: .55 });
-      var f = el('div', '', c, L0.f); css(f, { position: 'absolute', left: '36px', top: '62px', font: '700 46px var(--mono)' });
-      var d = el('div', '', c); css(d, { position: 'absolute', left: '36px', top: '132px', font: '400 22px var(--mono)', opacity: .6, whiteSpace: 'pre' }); d.textContent = ['SECRET=••••', '*.tmpl → ${VAR}', 'site: <site-A>', 'engines: [...]'][i];
+      var f = el('div', '', c, L0.f); css(f, { position: 'absolute', left: '36px', top: '326px', font: '700 40px var(--mono)' });
+      var d = el('div', '', c); css(d, { position: 'absolute', left: '36px', top: '88px', font: '400 24px var(--mono)', opacity: .6, whiteSpace: 'pre' }); d.textContent = ['SECRET=••••', '*.tmpl → ${VAR}', 'site: <site-A>', 'engines: [...]'][i];
       return c; });
     p.lb = LAYER.map(function (L0, i) {
       var y = 300 + i * 118, w = el('div', 'abs', root); css(w, { left: '1200px', top: y + 'px', width: '620px' });
       var ln = el('div', '', w); css(ln, { position: 'absolute', left: '-80px', top: '22px', width: '64px', height: '2px', background: L0.col });
       var a = bind(el('div', '', w), 'layers.' + L0.k); css(a, { font: '800 42px var(--sans)', color: L0.col }); var b = bind(el('div', '', w), 'layers.' + L0.k + 's'); css(b, { font: '400 24px var(--sans)', color: C.ink2, marginTop: '4px' }); return w; });
   }, render: function (t) { var p = this; p.h.render(t);
-    p.ls.forEach(function (c, i) { var step = 3 - i, q = ease.out(prog(t, 1.2 + step * 1.0, .9)); var z = i === 0 ? 0 : 0; var final = (3 - i) * 62, from = final + 280; c.style.opacity = q.toFixed(3); c.style.transform = 'translateZ(' + (from + (final - from) * q).toFixed(1) + 'px)'; });
+    p.ls.forEach(function (c, i) { var step = 3 - i, q = ease.out(prog(t, 1.2 + step * 1.0, .9)); var z = i === 0 ? 0 : 0; var final = (3 - i) * 96, from = final + 300; c.style.opacity = q.toFixed(3); c.style.transform = 'translateZ(' + (from + (final - from) * q).toFixed(1) + 'px)'; });
     p.lb.forEach(function (w, i) { var step = 3 - i; rise(w, ease.out(prog(t, 1.9 + step * 1.0, .7)), 14); }); } });
 
   // ───────────────── p07: deploy ─────────────────
@@ -282,7 +282,7 @@
 
 
   // ───────────────── cycle: config sikli, izometrik bloklar (p4 uslubi) ─────────────────
-  var S = 54, OX = 1370, OY = 300;
+  var S = 48, OX = 1440, OY = 330;
   var PX = function (x, y, z) { return [OX + (x - y) * .866 * S, OY + (x + y) * .5 * S - z * S]; };
   var pts = function (a) { return a.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '); };
   var PLATES = [{ n: 'sites/', x: 0, y: 0, cubes: [[.4, .4, 1.1], [2.2, .5, .7], [.6, 2.3, 1.6], [2.4, 2.4, .9]] }, { n: 'ttex_ai/', x: 5, y: 0, cubes: [[.4, .4, .8], [2.3, .4, 1.4], [.5, 2.3, .6], [2.3, 2.3, 1.0]] }, { n: 'deploy/', x: 0, y: 5, cubes: [[.5, .5, .7], [2.3, .6, 1.2], [1.4, 2.3, .9]] }, { n: 'tests/', x: 5, y: 5, cubes: [[.4, .5, .6], [2.2, .4, .9], [.5, 2.2, 1.2], [2.3, 2.3, .7]] }];
