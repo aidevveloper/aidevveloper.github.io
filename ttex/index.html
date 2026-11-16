@@ -1,27 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Work Briefings &middot; TTEx</title>
 <meta name="description" content="TTEx AI Work Briefings">
 <style>
-  :root{--bg:#f0f2f5;--ink:#2c3e50;--mute:#6b7785;--accent:#1a95d6}
+  :root{--bg:#1b1a19;--ink:#f4f2ec;--ink2:#a7a49b;--mute:#6f6d66;--line:#3a3834;--acc:#1a95d6;--acc2:#6cc4f2;--mono:ui-monospace,"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
   *{box-sizing:border-box}
-  html,body{margin:0;min-height:100%}
-  body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center}
-  img{width:min(260px,60vw);height:auto;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.12)}
-  h1{margin:28px 0 8px;font-size:clamp(28px,5vw,44px);letter-spacing:-.01em}
-  p{margin:0;color:var(--mute)}
-  .tag{display:inline-block;margin-top:18px;padding:4px 12px;border:1px solid var(--accent);color:var(--accent);border-radius:999px;font-size:13px}
+  html,body{margin:0;height:100%;background:var(--bg);overflow:hidden}
+  body{font-family:var(--sans);color:var(--ink)}
+  #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+  .abs{position:absolute}
+  #title{left:120px;top:300px;font:800 84px/1.05 var(--sans);letter-spacing:-.02em;white-space:nowrap}
+  #sub{left:124px;top:420px;font:400 38px var(--sans);color:var(--ink2);white-space:nowrap}
+  #quote{left:124px;top:500px;width:900px;font:italic 400 29px/1.5 Georgia,"Times New Roman",serif;color:var(--ink2)}
+  #src{left:124px;top:610px;font:400 19px var(--mono);color:var(--mute)}
+  #term{left:120px;top:720px;width:200px;height:132px}
+  #termlbl{left:120px;top:872px;width:200px;text-align:center;font:600 28px var(--sans)}
+  #ph{left:1190px;top:290px;font:800 40px var(--sans)}
+  #pd{left:1192px;top:348px;font:400 24px var(--sans);color:var(--ink2);white-space:nowrap}
+  #tree{left:1190px;top:404px;width:690px;font:400 22px/1.5 var(--mono);white-space:pre}
+  #tree .r{display:block;height:36px;color:var(--ink2)}
+  #tree .r b{font-weight:400;color:var(--ink)}
+  #tree .r i{font-style:normal;color:var(--mute);margin-left:12px}
+  #tree .r.hl{color:var(--acc2)}
+  #tree .r.hl b{color:var(--acc2)}
+  #bracket{left:1166px;top:406px;width:14px;height:470px;fill:none;stroke:var(--acc);stroke-width:2.5}
+  #cap{left:0;width:1920px;top:930px;text-align:center;font:400 34px var(--sans);color:var(--ink2)}
+  #cap b{font-weight:700;color:var(--ink)}
+  #ui{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgba(40,38,36,.92);border:1px solid var(--line);padding:8px 16px;border-radius:14px;backdrop-filter:blur(6px);z-index:5}
+  #ui button{all:unset;cursor:pointer;color:var(--ink2);padding:6px 8px;border-radius:8px;font:500 13px var(--mono)}
+  #ui button:hover,#ui button:focus-visible{color:var(--ink);background:rgba(255,255,255,.08)}
+  #bar{width:min(46vw,420px);height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+  #bar i{display:block;height:100%;width:0;background:var(--acc)}
+  #tm{color:var(--acc);font:500 13px var(--mono);min-width:70px}
 </style>
 </head>
 <body>
-  <main>
-    <img src="ttex-logo.png" alt="TTEx">
-    <h1>AI Work Briefings</h1>
-    <p>Coming soon.</p>
-    <span class="tag">In preparation</span>
-  </main>
+<div id="stage">
+  <div id="title" class="abs">Bitta kod, ko'p stansiya</div>
+  <div id="sub" class="abs">O'qiydi &nbsp;sozlaydi &nbsp;ishga tushiradi</div>
+  <div id="quote" class="abs">&ldquo;Barcha stansiyalardagi AI servislar uchun yagona source. Kod bitta joyda turadi, har bir stansiya faqat config papkasi.&rdquo;</div>
+  <div id="src" class="abs">ttex-ai &mdash; README</div>
+
+  <svg id="term" class="abs" viewBox="0 0 200 132" fill="none" stroke="#1a95d6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect id="tbox" x="2" y="2" width="196" height="128" rx="3"/>
+    <path id="tprompt" d="M24 38 L52 62 L24 86"/>
+    <path id="tline" d="M66 90 H108"/>
+  </svg>
+  <div id="termlbl" class="abs">Terminal</div>
+
+  <div id="ph" class="abs">Kod bazasi</div>
+  <div id="pd" class="abs">Loyihani tashkil etuvchi barcha manba kodi</div>
+  <svg id="bracket" class="abs" viewBox="0 0 14 470" preserveAspectRatio="none"><path id="br" d="M12 1 H2 V469 H12"/></svg>
+  <div id="tree" class="abs"></div>
+
+  <div id="cap" class="abs"></div>
+</div>
+
+<div id="ui" role="group" aria-label="Boshqaruv">
+  <button id="bp" type="button" aria-label="Pauza / davom">&#10074;&#10074;</button>
+  <button id="br2" type="button" aria-label="Qayta boshlash">&#8635; Qayta</button>
+  <div id="bar"><i></i></div>
+  <span id="tm">00:00</span>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var DUR = 15;           // animatsiya uzunligi (soniya)
+  var clamp=function(x,a,b){return Math.min(b==null?1:b,Math.max(a==null?0:a,x));};
+  var prog=function(t,s,d){return clamp((t-s)/d);};
+  var easeOut=function(p){return 1-Math.pow(1-p,3);};
+
+  // Tozalangan (sanitized) tuzilma: [matn, izoh, ajratib ko'rsatish oynasi [boshlanish, tugash]]
+  var ROWS=[
+    ['ttex-ai/','',null],
+    ['├ ttex_ai/','',null],
+    ['│ ├ core/','detect · track · plates · zones · slots',[8.2,10]],
+    ['│ ├ apps/','carwash · human · safety · station',null],
+    ['│ └ cli.py · deploy.py · pm2.py','',null],
+    ['├ sites/','',[10.4,12.4]],
+    ['│ ├ <site-A>/','site.yaml · overlay/',null],
+    ['│ └ <site-B>/','site.yaml · overlay/',null],
+    ['├ engines.yaml','',null],
+    ['├ deploy/','',null],
+    ['├ docs/','',null],
+    ['├ tests/','',null],
+    ['└ tools/','',null]
+  ];
+  var CAP=[
+    [3.2,"<b>Terminal</b>dan yagona kod bazasi bilan ishlanadi."],
+    [8.2,"<b>core/</b> da AI kodi: aniqlash, kuzatish, raqam, zona, slot."],
+    [10.4,"<b>sites/</b> da har bir stansiya faqat config va overlay."],
+    [12.8,"Kod bitta joyda, farq faqat <b>sites/</b> ichida."]
+  ];
+
+  var $=function(id){return document.getElementById(id);};
+  var stage=$('stage'),title=$('title'),sub=$('sub'),quote=$('quote'),src=$('src'),
+      tbox=$('tbox'),tprompt=$('tprompt'),tline=$('tline'),termlbl=$('termlbl'),
+      ph=$('ph'),pd=$('pd'),br=$('br'),tree=$('tree'),cap=$('cap'),
+      bar=document.querySelector('#bar i'),tm=$('tm');
+
+  // yo'lni "chizish" uchun tayyorlash
+  function prep(p){var l=p.getTotalLength();p._l=l;p.style.strokeDasharray=l+' '+(l+2);p.style.strokeDashoffset=l;}
+  [tbox,tprompt,tline,br].forEach(prep);
+  function draw(p,v){p.style.strokeDashoffset=(p._l*(1-clamp(v))).toFixed(1);}
+  function rise(el,p,dy){el.style.opacity=p.toFixed(3);el.style.transform='translateY('+((1-p)*(dy||20)).toFixed(1)+'px)';}
+
+  // daraxt qatorlari
+  var rowEls=ROWS.map(function(r){
+    var d=document.createElement('span');d.className='r';
+    var b=document.createElement('b');b.textContent=r[0];d.appendChild(b);
+    if(r[1]){var i=document.createElement('i');i.textContent=r[1];d.appendChild(i);}
+    tree.appendChild(d);return d;
+  });
+
+  function render(t){
+    // sarlavha va izoh
+    rise(title,easeOut(prog(t,0.2,0.9)),28);
+    rise(sub,easeOut(prog(t,0.9,0.8)),18);
+    rise(quote,easeOut(prog(t,1.6,0.9)),14);
+    rise(src,easeOut(prog(t,2.2,0.7)),10);
+    // terminal belgisi chiziladi
+    draw(tbox,easeOut(prog(t,1.6,1.0)));
+    draw(tprompt,easeOut(prog(t,2.5,0.5)));
+    var blink=(Math.floor(t*2)%2===0)||t<3.2?1:0.15;
+    draw(tline,prog(t,3.0,0.4));tline.style.opacity=(t>3.4?blink:1);
+    rise(termlbl,easeOut(prog(t,2.8,0.6)),10);
+    // o'ng panel
+    rise(ph,easeOut(prog(t,3.4,0.6)),16);
+    rise(pd,easeOut(prog(t,3.7,0.6)),12);
+    draw(br,easeOut(prog(t,4.0,1.4)));
+    // daraxt qatorlari ketma-ket
+    rowEls.forEach(function(el,i){
+      var p=easeOut(prog(t,4.4+i*0.28,0.45));
+      el.style.opacity=p.toFixed(3);
+      el.style.transform='translateX('+((1-p)*-16).toFixed(1)+'px)';
+      var w=ROWS[i][2];
+      el.classList.toggle('hl',!!(w&&t>=w[0]&&t<w[1]));
+    });
+    // pastki izoh (oxirgi mos keladigani)
+    var c='',cs=-1;
+    CAP.forEach(function(x){if(t>=x[0]){c=x[1];cs=x[0];}});
+    if(c){if(cap._h!==c){cap.innerHTML=c;cap._h=c;}rise(cap,easeOut(prog(t,cs,0.5)),10);}else{cap.style.opacity=0;}
+    // boshqaruv
+    bar.style.width=(clamp(t/DUR)*100).toFixed(1)+'%';
+    var s=Math.floor(t);tm.textContent='00:'+(s<10?'0':'')+s+' / 00:'+DUR;
+  }
+
+  // sahnani oynaga moslash
+  function fit(){
+    var k=Math.min(innerWidth/1920,innerHeight/1080);
+    stage.style.transform='scale('+k+') translate(-50%,-50%)';
+  }
+  addEventListener('resize',fit);fit();
+
+  // vaqt: ?t=7.5 berilsa shu kadrda to'xtaydi (skrinshot uchun)
+  var q=new URLSearchParams(location.search),fixed=q.has('t')?parseFloat(q.get('t')):null;
+  var t=0,playing=true,last=null;
+  function frame(now){
+    if(last==null)last=now;
+    if(playing&&fixed==null){t=Math.min(DUR,t+(now-last)/1000);}
+    last=now;
+    render(fixed!=null?fixed:t);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function toggle(){playing=!playing;$('bp').innerHTML=playing?'&#10074;&#10074;':'&#9654;';}
+  function restart(){t=0;playing=true;$('bp').innerHTML='&#10074;&#10074;';}
+  $('bp').onclick=toggle;$('br2').onclick=restart;
+  addEventListener('keydown',function(e){
+    if(e.code==='Space'){e.preventDefault();toggle();}
+    else if(e.key==='r'||e.key==='R'){restart();}
+  });
+})();
+</script>
 </body>
 </html>
