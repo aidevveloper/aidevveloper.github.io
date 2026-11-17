@@ -7,11 +7,11 @@
   L('ui', { ko: { doc: 'TTEx AI Work Briefings', toc: '목차' }, en: { doc: 'TTEx AI Work Briefings', toc: 'Contents' }, uz: { doc: 'TTEx AI Work Briefings', toc: 'Mundarija' } });
   L('p01', {
     ko: { t: '하나의 코드, 여러 스테이션', s: '읽고 설정하고 실행한다', q: '“모든 스테이션의 AI 서비스를 위한 단일 소스. 코드는 한 곳에 두고, 각 스테이션에는 설정 폴더만 둔다.”', term: '터미널', ph: '코드베이스', pd: '프로젝트를 이루는 소스 코드 전체',
-      c1: '<b>터미널</b>에서 하나의 코드베이스로 작업합니다.', c2: '<b>core/</b>에 AI 코드: 감지, 추적, 번호판, 구역, 슬롯.', c3: '<b>sites/</b>에는 스테이션별 설정과 overlay만 있습니다.', c4: '코드는 한 곳에, 차이는 <b>sites/</b> 안에만 있습니다.' },
+      c1: '<b>터미널</b>에서 하나의 코드베이스로 작업합니다.', c2: '<b>core/</b>에 AI 코드: 감지, 추적, 번호판, 구역, 슬롯.', c3: '<b>sites/</b>에는 스테이션별 설정과 overlay만 있습니다.', c4: '코드는 한 곳에, 차이는 <b>sites/</b> 안에 있습니다.', c5: '스테이션별 추가 커스터마이징이 필요하면 <b>misc/</b>에서 합니다.' },
     en: { t: 'One codebase, many stations', s: 'Reads, configures, deploys', q: '“A single source for the AI services at every station. The code lives in one place; each station only gets a config folder.”', term: 'Terminal', ph: 'Codebase', pd: 'All the source code that makes up the project',
-      c1: 'Work from the <b>terminal</b> on a single codebase.', c2: 'AI code lives in <b>core/</b>: detect, track, plates, zones, slots.', c3: '<b>sites/</b> holds only each station\'s config and overlay.', c4: 'One codebase; differences live only inside <b>sites/</b>.' },
+      c1: 'Work from the <b>terminal</b> on a single codebase.', c2: 'AI code lives in <b>core/</b>: detect, track, plates, zones, slots.', c3: '<b>sites/</b> holds only each station\'s config and overlay.', c4: 'One codebase; the differences live inside <b>sites/</b>.', c5: 'If a station needs extra customizing, it is done in <b>misc/</b>.' },
     uz: { t: 'Bitta kod, ko\'p stansiya', s: 'O\'qiydi, sozlaydi, ishga tushiradi', q: '“Barcha stansiyalardagi AI servislar uchun yagona source. Kod bitta joyda turadi, har bir stansiya faqat config papkasi.”', term: 'Terminal', ph: 'Kod bazasi', pd: 'Loyihani tashkil etuvchi barcha manba kodi',
-      c1: '<b>Terminal</b>dan yagona kod bazasi bilan ishlanadi.', c2: '<b>core/</b> da AI kodi: aniqlash, kuzatish, raqam, zona, slot.', c3: '<b>sites/</b> da har bir stansiya faqat config va overlay.', c4: 'Kod bitta joyda, farq faqat <b>sites/</b> ichida.' }
+      c1: '<b>Terminal</b>dan yagona kod bazasi bilan ishlanadi.', c2: '<b>core/</b> da AI kodi: aniqlash, kuzatish, raqam, zona, slot.', c3: '<b>sites/</b> da har bir stansiya faqat config va overlay.', c4: 'Kod bitta joyda, farq <b>sites/</b> ichida.', c5: 'Stansiyaga xos qo\'shimcha sozlash kerak bo\'lsa, u <b>misc/</b> da qilinadi.' }
   });
   L('p02', {
     ko: { t: '사용 방법: ttex_ai.run()', s: '앱 이름으로 호출한다', cli: 'CLI에서도 동일', note: '왜 <code>ttex_ai.station()</code>이 아닌가요? <code>ttex_ai.station</code>은 스테이션 서버 API 클라이언트 모듈이라, 앱은 <code>run()</code>으로 호출합니다.',
@@ -99,8 +99,8 @@
   });
 
   // ───────────────── p01: tuzilma ─────────────────
-  var ROWS = [['ttex-ai/', '', null], ['├ ttex_ai/', '', null], ['│ ├ core/', 'detect · track · plates · zones · slots', [8.2, 10]], ['│ ├ apps/', 'station · carwash · human · safety', null], ['│ └ cli.py · deploy.py · pm2.py', '', null], ['├ sites/', '', [10.4, 12.4]], ['│ ├ <site-A>/', 'site.yaml · overlay/', null], ['│ └ <site-B>/', 'site.yaml · overlay/', null], ['├ engines.yaml', '', null], ['├ deploy/', '', null], ['├ docs/', '', null], ['├ tests/', '', null], ['└ tools/', '', null]];
-  D.page({ id: 'p01', dur: 15, caps: [[3.2, 'p01.c1'], [8.2, 'p01.c2'], [10.4, 'p01.c3'], [12.8, 'p01.c4']], setup: function (root, p) {
+  var ROWS = [['ttex-ai/', '', null], ['├ ttex_ai/', '', null], ['│ ├ core/', 'detect · track · plates · zones · slots', [8.2, 10]], ['│ ├ apps/', 'station · carwash · human · safety', null], ['│ └ cli.py · deploy.py · pm2.py', '', null], ['├ sites/', '', [10.4, 12.2]], ['│ ├ <site-A>/', 'site.yaml · overlay/', null], ['│ └ <site-B>/', 'site.yaml · overlay/', null], ['├ engines.yaml', '', null], ['├ deploy/', '', null], ['├ docs/', '', null], ['├ tests/', '', null], ['├ misc/', 'station customizing', [13.8, 16.6]], ['└ tools/', '', null]];
+  D.page({ id: 'p01', dur: 18, caps: [[3.2, 'p01.c1'], [8.2, 'p01.c2'], [10.4, 'p01.c3'], [12.2, 'p01.c4'], [13.8, 'p01.c5']], setup: function (root, p) {
     p.title = bind(el('div', 'abs', root), 'p01.t'); css(p.title, { left: '120px', top: '300px', font: '800 84px/1.05 var(--sans)', letterSpacing: '-.02em', whiteSpace: 'nowrap' });
     p.sub = bind(el('div', 'abs', root), 'p01.s'); css(p.sub, { left: '124px', top: '420px', font: '400 38px var(--sans)', color: C.ink2, whiteSpace: 'nowrap' });
     p.q = bind(el('div', 'abs', root), 'p01.q'); css(p.q, { left: '124px', top: '500px', width: '900px', font: 'italic 400 29px/1.5 Georgia,"Times New Roman",serif', color: C.ink2 });
@@ -110,8 +110,8 @@
     p.tlab = bind(el('div', 'abs', root), 'p01.term'); css(p.tlab, { left: '120px', top: '872px', width: '200px', textAlign: 'center', font: '600 28px var(--sans)' });
     p.ph = bind(el('div', 'abs', root), 'p01.ph'); css(p.ph, { left: '1190px', top: '290px', font: '800 40px var(--sans)' });
     p.pd = bind(el('div', 'abs', root), 'p01.pd'); css(p.pd, { left: '1192px', top: '348px', font: '400 24px var(--sans)', color: C.ink2, whiteSpace: 'nowrap' });
-    var bs = svg('svg', { viewBox: '0 0 14 470', preserveAspectRatio: 'none', fill: 'none', stroke: C.acc, 'stroke-width': 2.5 }, root); css(bs, { position: 'absolute', left: '1166px', top: '406px', width: '14px', height: '470px' });
-    p.br = prep(svg('path', { d: 'M12 1 H2 V469 H12' }, bs));
+    var bs = svg('svg', { viewBox: '0 0 14 506', preserveAspectRatio: 'none', fill: 'none', stroke: C.acc, 'stroke-width': 2.5 }, root); css(bs, { position: 'absolute', left: '1166px', top: '406px', width: '14px', height: '506px' });
+    p.br = prep(svg('path', { d: 'M12 1 H2 V505 H12' }, bs));
     var tr = el('div', 'abs', root); css(tr, { left: '1190px', top: '404px', width: '690px', font: '400 22px/1.5 var(--mono)', whiteSpace: 'pre' });
     p.rows = ROWS.map(function (r) { var d = el('span', '', tr); css(d, { display: 'block', height: '36px', color: C.ink2 }); var b = el('b', '', d, r[0]); css(b, { fontWeight: 400, color: C.ink }); if (r[1]) { var i = el('i', '', d, r[1]); css(i, { fontStyle: 'normal', color: '#6f6d66', marginLeft: '12px' }); } return [d, b, r[2]]; });
   }, render: function (t, p) { p = this;
