@@ -98,6 +98,15 @@
       c1: '<b>Yig\'ish</b>: takroriy qutilar olib tashlanadi, keyin plastinkaning qiyaligi bo\'yicha o\'qiladi.', c2: '<b>Tekshirish</b>: faqat uchta haqiqiy shakldan biriga mos kelsa nomzod bo\'ladi.', c3: '<b>Ovoz</b>: bir mashinaning barcha o\'qishlari ichida ishonch yig\'indisi eng katta raqam yutadi.' }
   });
 
+  L('wire', {
+    ko: { t: '모델의 시선', s: '실제 프레임이 도식으로 바뀐다', note: '도식: 이미지 가장자리(2D)에서 추출, 3D 복원 아님', hud: '모델 뷰',
+      c1: '<b>실제 프레임</b>: 배경을 제거한 차량.', c2: '가장자리가 <b>네온 선</b>으로 바뀝니다.', c3: '그 위에 <b>실제 결과</b>: 차량, 번호판, 문자 8개.', c4: '결과: <b>205더7419</b>.' },
+    en: { t: 'Through the model\'s eyes', s: 'The real frame turns into a schematic', note: 'schematic: from image edges (2D), not a 3D reconstruction', hud: 'model view',
+      c1: 'The <b>real frame</b>: the car with the background removed.', c2: 'The edges turn into <b>neon lines</b>.', c3: 'On top, the <b>real result</b>: car, plate, 8 characters.', c4: 'Result: <b>205더7419</b>.' },
+    uz: { t: 'Model ko\'zi bilan', s: 'Real kadr sxemaga aylanadi', note: 'sxema: rasm qirralaridan (2D), 3D rekonstruksiya emas', hud: 'model ko\'rinishi',
+      c1: '<b>Real kadr</b>: fon olib tashlangan mashina.', c2: 'Qirralar <b>neon chiziqqa</b> aylanadi.', c3: 'Ustiga <b>haqiqiy natija</b>: mashina, plastinka, 8 ta belgi.', c4: 'Natija: <b>205더7419</b>.' }
+  });
+
   // ───────────────── p01: tuzilma ─────────────────
   var ROWS = [['ttex-ai/', '', null], ['├ ttex_ai/', '', null], ['│ ├ core/', 'detect · track · plates · zones · slots', [8.2, 10]], ['│ ├ apps/', 'station · carwash · human · safety', null], ['│ └ cli.py · deploy.py · pm2.py', '', null], ['├ sites/', '', [10.4, 12.2]], ['│ ├ <site-A>/', 'site.yaml · overlay/', null], ['│ └ <site-B>/', 'site.yaml · overlay/', null], ['├ engines.yaml', '', null], ['├ deploy/', '', null], ['├ docs/', '', null], ['├ tests/', '', null], ['├ misc/', 'station customizing', [13.8, 16.6]], ['└ tools/', '', null]];
   D.page({ id: 'p01', dur: 18, caps: [[3.2, 'p01.c1'], [8.2, 'p01.c2'], [10.4, 'p01.c3'], [12.2, 'p01.c4'], [13.8, 'p01.c5']], setup: function (root, p) {
@@ -242,6 +251,48 @@
     var R = LD.result, r1 = 'text: "' + R.text + '"', r2 = 'conf ' + R.conf.toFixed(3) + ' · hangul_conf ' + R.hangul_conf.toFixed(3);
     var n1 = clamp((t - 18.2) * 30, 0, r1.length) | 0, n2 = clamp((t - 19.2) * 30, 0, r2.length) | 0; p.rs[0].textContent = r1.slice(0, n1); p.rs[1].textContent = r2.slice(0, n2);
     fade(p.nt, ease.out(prog(t, 18, .6))); } });
+
+  // ───────────────── wire: real kadrdan neon sxemaga (qirralardan, 2D) ─────────────────
+  var WD = window.WIRE_DATA, WX0 = 334, WW = 612;
+  D.page({ id: 'wire', dur: 17, caps: [[.8, 'wire.c1'], [4.2, 'wire.c2'], [8.2, 'wire.c3'], [12.8, 'wire.c4']], setup: function (root, p) {
+    p.h = D.head(p, root);
+    var holder = el('div', 'abs', root); css(holder, { left: '560px', top: '215px', width: '1200px', height: '680px' });
+    var A = svg('svg', { viewBox: '230 90 1000 ' + (1000 * 680 / 1200), width: 1200, height: 680 }, holder); css(A, { position: 'absolute', left: 0, top: 0, overflow: 'visible' });
+    var defs = svg('defs', {}, A);
+    var f = svg('filter', { id: 'glowW', x: '-20%', y: '-20%', width: '140%', height: '140%' }, defs); svg('feGaussianBlur', { stdDeviation: 5, result: 'b' }, f); var m = svg('feMerge', {}, f); svg('feMergeNode', { in: 'b' }, m); svg('feMergeNode', { in: 'b' }, m); svg('feMergeNode', { in: 'SourceGraphic' }, m);
+    var cp = svg('clipPath', { id: 'clipW' }, defs); p.clip = svg('rect', { x: WX0, y: 0, width: 3000, height: 3000 }, cp);
+    var lg = svg('linearGradient', { id: 'scanG', x1: 0, x2: 1, y1: 0, y2: 0 }, defs); [[0, 0], [.5, .9], [1, 0]].forEach(function (q) { svg('stop', { offset: q[0], 'stop-color': '#6cc4f2', 'stop-opacity': q[1] }, lg); });
+    var im = LD.car.img; p.im = svg('image', { href: 'img/car_cutout.png', x: im[0], y: im[1], width: im[2], height: im[3], 'clip-path': 'url(#clipW)' }, A);
+    var wg = p.wg = svg('g', { filter: 'url(#glowW)', fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, A);
+    var mk = function (d, col, sw) { var e = svg('path', { d: d, stroke: col, 'stroke-width': sw, pathLength: 1, 'stroke-dasharray': '1 1' }, wg); e.style.strokeDashoffset = 1; e.style.opacity = 0; var nums = d.match(/-?\d+/g).map(Number), xs = nums.filter(function (_, i2) { return i2 % 2 === 0; }); e._fx = (Math.min.apply(null, xs) - WX0) / WW; return e; };
+    p.out = WD.outline.map(function (d) { return mk(d, '#bfeaff', 3); });
+    p.ins = WD.inside.map(function (d) { return mk(d, '#4cc3f5', 1.8); });
+    p.sc = svg('rect', { x: WX0, y: 110, width: 36, height: 540, fill: 'url(#scanG)' }, A); p.sc.style.opacity = 0;
+    // haqiqiy model natijasi: neon qutilar
+    var cb = LD.car.box, pb = LD.plate.box, ov = svg('g', { fill: 'none' }, A);
+    var box = function (b, col, sw, pad) { pad = pad || 0; return prep(svg('rect', { x: b[0] - pad, y: b[1] - pad, width: b[2] - b[0] + 2 * pad, height: b[3] - b[1] + 2 * pad, rx: 3, stroke: col, 'stroke-width': sw }, ov)); };
+    p.cbx = box(cb, '#6cc4f2', 3.5, 0); p.pbx = box(pb, C.warn, 3, 3);
+    p.chx = LD.chars.map(function (c) { return box(c.box, c.cls >= 10 ? C.warn : '#6cc4f2', 2.2, 0); });
+    p.lbl = svg('g', {}, A); svg('rect', { x: cb[0], y: cb[1] - 30, width: 150, height: 30, fill: '#6cc4f2' }, p.lbl); T_(p.lbl, cb[0] + 8, cb[1] - 9, 'car ' + LD.car.conf.toFixed(2), { size: 21, weight: 700, fill: '#10202b', mono: true });
+    p.lbl2 = svg('g', {}, A); svg('rect', { x: pb[0] - 3, y: pb[1] - 33, width: 156, height: 30, fill: C.warn }, p.lbl2); T_(p.lbl2, pb[0] + 5, pb[1] - 12, 'plate ' + LD.plate.conf.toFixed(2), { size: 20, weight: 700, fill: '#2b1e05', mono: true });
+    // HUD (chap)
+    var hud = el('div', 'abs', root); css(hud, { left: '120px', top: '300px', width: '400px' }); p.hud = hud;
+    var tag = bind(el('div', '', hud), 'wire.hud'); css(tag, { font: '600 22px var(--mono)', color: C.acc2, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: '16px' });
+    var R = LD.result; p.lines = [['car', LD.car.conf.toFixed(2), 8.2], ['plate', LD.plate.conf.toFixed(2), 9.4], ['chars', String(LD.chars.length), 10.4], ['text', R.text, 12.8], ['conf', R.conf.toFixed(3), 13.2], ['hangul_conf', R.hangul_conf.toFixed(3), 13.6]].map(function (q) {
+      var r = el('div', '', hud); css(r, { display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid ' + C.line, padding: '10px 2px', font: '500 26px var(--mono)' });
+      el('span', '', r, q[0]).style.color = C.ink2; var v = el('span', '', r, q[1]); v.style.color = q[0] === 'text' ? '#f4f2ec' : C.acc2; if (q[0] === 'text') v.style.fontWeight = 800; r._t = q[2]; return r; });
+    p.nt = bind(el('div', 'abs', root), 'wire.note'); css(p.nt, { left: '1060px', top: '884px', width: '740px', textAlign: 'right', font: '400 20px var(--sans)', color: '#6f6d66' });
+  }, render: function (t) { var p = this; p.h.render(t);
+    var sf = ease.io(prog(t, 2.2, 4.8)), scanX = WX0 - 20 + (WW + 40) * sf;
+    p.clip.setAttribute('x', scanX.toFixed(1)); fade(p.im, ease.out(prog(t, .6, 1.2)));
+    var on = t > 2.2 && t < 7.2; p.sc.setAttribute('x', (scanX - 18).toFixed(1)); p.sc.style.opacity = on ? 1 : 0;
+    p.out.forEach(function (e) { var q = ease.out(prog(t, 2.3, 4.2)); e.style.strokeDashoffset = (1 - q).toFixed(4); e.style.opacity = q > .002 ? 1 : 0; });
+    p.ins.forEach(function (e) { var q = clamp((sf - e._fx) / .16); e.style.strokeDashoffset = (1 - ease.out(q)).toFixed(4); e.style.opacity = q > .002 ? .95 : 0; });
+    p.wg.style.opacity = (t > 9 ? .78 + .22 * Math.sin(t * 2.2) : 1).toFixed(3);
+    draw(p.cbx, ease.out(prog(t, 8.2, .9))); fade(p.lbl, ease.out(prog(t, 9, .4))); draw(p.pbx, ease.out(prog(t, 9.4, .7))); fade(p.lbl2, ease.out(prog(t, 10.1, .4)));
+    p.chx.forEach(function (e, i) { draw(e, ease.out(prog(t, 10.4 + i * .28, .35))); });
+    p.lines.forEach(function (r) { rise(r, ease.out(prog(t, r._t, .5)), 10); });
+    fade(p.nt, ease.out(prog(t, 3, .8))); } });
 
   // ───────────────── lpr2: post-processing ─────────────────
   D.page({ id: 'lpr2', dur: 28, caps: [[4, 'lpr2.c1'], [10.4, 'lpr2.c2'], [17.6, 'lpr2.c3']], setup: function (root, p) {
