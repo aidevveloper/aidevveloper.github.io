@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rhino Pi X1</title>
+<meta name="description" content="Rhino Pi X1 (QCS8550): seven cameras through VPU, GPU, NPU and CPU">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a95d6'/%3E%3Cpath d='M9 11l6 5-6 5M17 22h7' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body>
+<div id="stage"><div id="cap"></div></div>
+<div id="lang" role="group" aria-label="Language"><button type="button" data-l="ko">KO</button><button type="button" data-l="en">EN</button><button type="button" data-l="uz">UZ</button></div>
+<div id="toc" role="dialog"><div class="in"></div></div>
+<div id="ui" role="group">
+  <button id="prev" type="button" aria-label="Previous">&#8249;</button>
+  <button id="play" type="button" aria-label="Play / pause">&#10074;&#10074;</button>
+  <button id="next" type="button" aria-label="Next">&#8250;</button>
+  <div id="segs"></div>
+  <span id="cnt">01 / 01</span>
+  <button id="tocb" type="button" aria-label="Contents">&#9776;</button>
+  <button id="autob" type="button" aria-pressed="true" aria-label="Auto-advance">AUTO</button>
+  <button id="fs" type="button" aria-label="Fullscreen">&#9974;</button>
+</div>
+<script src="js/core.js"></script>
+<script src="js/pages.js"></script>
+<script>DECK.init();</script>
+</body>
+</html>
