@@ -516,7 +516,7 @@
     p.path.forEach(function (q, i) { draw(q, ease.io(prog(t, [5.8, 10.8][i], 1.4))); q.style.strokeDasharray = prog(t, [5.8, 10.8][i], 1.4) >= .999 ? '9 8' : q._l + ' ' + (q._l + 2); }); } });
 
 
-  // ───────────────── x1flow / x1gain: 7 RTSP kamera Rhino Pi X1 (QCS8550) ichida (2026-11-18, .181, 내곡 videolari) ─────────────────
+  // ───────────────── x1flow: 7 kamera Rhino Pi X1 (QCS8550) ichida (2026-11-18, .181, 내곡 videolari) ─────────────────
   L('x1flow', {
     ko: { t: 'X1: 카메라 7대, 장비 하나', s: 'RTSP 스트림이 장비의 각 부품을 지나는 길 · 내곡 주유소 1080p · 10 fps', cam: 'RTSP · H.265 1080p',
       st1: '디코드', st2: '텐서', st3: '감지', st4: '추적', st5: '크롭', st6: '판독', st7: '기록',
@@ -525,8 +525,8 @@
       gpu1: '디코더 버퍼를 직접 읽음 (zero-copy)', gpu2: 'NV12 → 감지 입력 640×640 uint8', gpu3: '금지 구역(Banned)을 회색으로 칠함', gpu4: '번호판용 프레임을 GPU 링에 보관 (0.2초마다)', gpu5: '차량 크롭 → 번호판 모델 입력', gpu6: '번호판 크롭 → 문자 모델 입력',
       npu1: '차량 감지 (det, 5 클래스)', npu2: '번호판 위치 (plate)', npu3: '문자 66 클래스 (char)',
       cpu1: 'NMS · 출력 해석 (0.2–0.4 ms)', cpu2: 'ByteTrack 추적 (차량 ID)', cpu3: '문자 조립 → 번호판 텍스트, 형식 검사', cpu4: '<cam>.jsonl 기록 → gid 프로세스',
-      row: '추적 · 번호판', now: '이번 단계', sum_l: '같은 영상 · 처음 11분 평균', sum_t: '결과', sum1: 'CPU 전체', sum2: 'AI 몫', sum3: '디코드 fps', sum4: 'CPU 최고 온도', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (NPU·디코더 버퍼 포함)',
-      c0: '<b>카메라 7대</b>의 RTSP 스트림이 X1 장비 하나로 들어옵니다.', c1: '<b>VPU</b>가 디코드하고, 프레임은 dmabuf에 남습니다.', c2: '<b>GPU</b>가 그 버퍼를 직접 읽어 감지 입력을 만듭니다.', c3: '<b>NPU</b>가 차량을 찾습니다.', c4: '<b>CPU</b>는 가벼운 일만 합니다: NMS와 추적.', c5: '다시 <b>GPU</b>: 차량과 번호판을 잘라 모델 입력으로 만듭니다.', c6: '<b>NPU</b>가 번호판과 문자를 읽습니다.', c7: '<b>CPU</b>가 문자를 조립해 <b>jsonl</b>에 씁니다.', c8: '같은 영상에서 <b>CPU 68% → 41%</b>, 모든 카메라가 10 fps를 유지합니다.' },
+      row: '추적 · 번호판', now: '이번 단계', sum_l: '11분 평균', sum_t: '결과', sum1: 'CPU 전체', sum2: 'AI 몫', sum3: '디코드 fps', sum4: 'CPU 최고 온도', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (NPU·디코더 버퍼 포함)',
+      c0: '<b>카메라 7대</b>의 RTSP 스트림이 X1 장비 하나로 들어옵니다.', c1: '<b>VPU</b>가 디코드하고, 프레임은 dmabuf에 남습니다.', c2: '<b>GPU</b>가 그 버퍼를 직접 읽어 감지 입력을 만듭니다.', c3: '<b>NPU</b>가 차량을 찾습니다.', c4: '<b>CPU</b>는 가벼운 일만 합니다: NMS와 추적.', c5: '다시 <b>GPU</b>: 차량과 번호판을 잘라 모델 입력으로 만듭니다.', c6: '<b>NPU</b>가 번호판과 문자를 읽습니다.', c7: '<b>CPU</b>가 문자를 조립해 <b>jsonl</b>에 씁니다.', c8: '7대 모두 10 fps, <b>CPU 41%</b>, <b>AI 31%</b>.' },
     en: { t: 'X1: 7 cameras, one device', s: 'Where each RTSP stream goes inside the device · Naegok station 1080p · 10 fps', cam: 'RTSP · H.265 1080p',
       st1: 'decode', st2: 'tensor', st3: 'detect', st4: 'track', st5: 'crop', st6: 'read', st7: 'write',
       vpu_d: 'Video decoder · qtic2vdec', gpu_d: 'Adreno 740 · OpenCL', npu_d: 'Hexagon · QNN 2.36 · uint8', cpu_d: 'Kryo, 6 cores · Python',
@@ -534,8 +534,8 @@
       gpu1: 'Reads the decoder buffer directly (zero-copy)', gpu2: 'NV12 → detector input 640×640 uint8', gpu3: 'Paints Banned zones grey', gpu4: 'Keeps the plate frame in a GPU ring (every 0.2 s)', gpu5: 'Car crop → plate model input', gpu6: 'Plate crop → char model input',
       npu1: 'Vehicle detection (det, 5 classes)', npu2: 'Plate box (plate)', npu3: 'Characters, 66 classes (char)',
       cpu1: 'NMS · output decoding (0.2–0.4 ms)', cpu2: 'ByteTrack tracking (car IDs)', cpu3: 'Chars → plate text, format check', cpu4: 'Writes <cam>.jsonl → gid process',
-      row: 'tracks · plates', now: 'this step', sum_l: 'Same video · first 11 minutes, average', sum_t: 'Result', sum1: 'CPU total', sum2: 'AI share', sum3: 'Decoded fps', sum4: 'CPU max temp', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (incl. NPU / decoder buffers)',
-      c0: '<b>Seven cameras</b> stream RTSP into one X1 device.', c1: 'The <b>VPU</b> decodes; the frames stay in the dmabuf.', c2: 'The <b>GPU</b> reads that buffer directly and builds the detector input.', c3: 'The <b>NPU</b> finds the cars.', c4: 'The <b>CPU</b> does only the light work: NMS and tracking.', c5: 'The <b>GPU</b> again: it cuts cars and plates into model inputs.', c6: 'The <b>NPU</b> reads the plate and its characters.', c7: 'The <b>CPU</b> assembles the text and writes the <b>jsonl</b>.', c8: 'On the same video: <b>CPU 68% → 41%</b>, and every camera holds 10 fps.' },
+      row: 'tracks · plates', now: 'this step', sum_l: '11-minute average', sum_t: 'Result', sum1: 'CPU total', sum2: 'AI share', sum3: 'Decoded fps', sum4: 'CPU max temp', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (incl. NPU / decoder buffers)',
+      c0: '<b>Seven cameras</b> stream RTSP into one X1 device.', c1: 'The <b>VPU</b> decodes; the frames stay in the dmabuf.', c2: 'The <b>GPU</b> reads that buffer directly and builds the detector input.', c3: 'The <b>NPU</b> finds the cars.', c4: 'The <b>CPU</b> does only the light work: NMS and tracking.', c5: 'The <b>GPU</b> again: it cuts cars and plates into model inputs.', c6: 'The <b>NPU</b> reads the plate and its characters.', c7: 'The <b>CPU</b> assembles the text and writes the <b>jsonl</b>.', c8: 'All 7 cameras at 10 fps, <b>CPU 41%</b>, <b>AI 31%</b>.' },
     uz: { t: 'X1: 7 kamera, bitta qurilma', s: 'RTSP oqim qurilmaning qaysi qismlaridan o\'tadi · 내곡 주유소 1080p · 10 fps', cam: 'RTSP · H.265 1080p',
       st1: 'dekod', st2: 'tensor', st3: 'aniqlash', st4: 'kuzatish', st5: 'kesish', st6: 'o\'qish', st7: 'yozish',
       vpu_d: 'Video dekoder · qtic2vdec', gpu_d: 'Adreno 740 · OpenCL', npu_d: 'Hexagon · QNN 2.36 · uint8', cpu_d: 'Kryo, 6 yadro · Python',
@@ -543,24 +543,9 @@
       gpu1: 'Decoder buferini o\'zi o\'qiydi (zero-copy)', gpu2: 'NV12 → det kirishi 640×640 uint8', gpu3: 'Banned zonalarni kulrangga bo\'yaydi', gpu4: 'Raqam kadrini GPU ring\'da saqlaydi (har 0.2 s)', gpu5: 'Mashina kesimi → raqam modeli kirishi', gpu6: 'Raqam kesimi → belgi modeli kirishi',
       npu1: 'Mashina aniqlash (det, 5 sinf)', npu2: 'Raqam joyi (plate)', npu3: 'Belgilar, 66 sinf (char)',
       cpu1: 'NMS · natijani o\'qish (0.2–0.4 ms)', cpu2: 'ByteTrack kuzatish (mashina ID)', cpu3: 'Belgilar → raqam matni, format tekshiruvi', cpu4: '<cam>.jsonl yozadi → gid jarayoni',
-      row: 'track · raqam', now: 'shu qadam', sum_l: 'Bir xil video · birinchi 11 daqiqa o\'rtachasi', sum_t: 'Natija', sum1: 'CPU jami', sum2: 'AI ulushi', sum3: 'Dekod fps', sum4: 'CPU eng yuqori harorat', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (NPU / dekoder buferlari bilan)',
-      c0: '<b>7 ta kamera</b>ning RTSP oqimi bitta X1 qurilmaga kiradi.', c1: '<b>VPU</b> dekodlaydi, kadr dmabuf\'da qoladi.', c2: '<b>GPU</b> o\'sha buferni o\'zi o\'qib, det kirishini yasaydi.', c3: '<b>NPU</b> mashinalarni topadi.', c4: '<b>CPU</b> faqat yengil ish qiladi: NMS va kuzatish.', c5: 'Yana <b>GPU</b>: mashina va raqamni kesib, model kirishiga aylantiradi.', c6: '<b>NPU</b> raqam va belgilarni o\'qiydi.', c7: '<b>CPU</b> belgilarni yig\'ib, <b>jsonl</b>ga yozadi.', c8: 'Bir xil videoda: <b>CPU 68% → 41%</b>, hamma kamera 10 fps\'da.' }
+      row: 'track · raqam', now: 'shu qadam', sum_l: '11 daqiqa o\'rtachasi', sum_t: 'Natija', sum1: 'CPU jami', sum2: 'AI ulushi', sum3: 'Dekod fps', sum4: 'CPU eng yuqori harorat', ram: 'RAM 3.6 / 15 GB · AI ≈ 1.75 GB (NPU / dekoder buferlari bilan)',
+      c0: '<b>7 ta kamera</b>ning RTSP oqimi bitta X1 qurilmaga kiradi.', c1: '<b>VPU</b> dekodlaydi, kadr dmabuf\'da qoladi.', c2: '<b>GPU</b> o\'sha buferni o\'zi o\'qib, det kirishini yasaydi.', c3: '<b>NPU</b> mashinalarni topadi.', c4: '<b>CPU</b> faqat yengil ish qiladi: NMS va kuzatish.', c5: 'Yana <b>GPU</b>: mashina va raqamni kesib, model kirishiga aylantiradi.', c6: '<b>NPU</b> raqam va belgilarni o\'qiydi.', c7: '<b>CPU</b> belgilarni yig\'ib, <b>jsonl</b>ga yozadi.', c8: '7 kameraning hammasi 10 fps\'da, <b>CPU 41%</b>, <b>AI 31%</b>.' }
   });
-  L('x1gain', {
-    ko: { t: '무엇이 바뀌었나: 측정', s: '내곡 7대 · 같은 영상 · 처음 11분 평균 (.181)', r1: '처음 (CPU 크롭)', r2: 'GPU 크롭', r3: '+ zero-copy · uint8 · shared', lg1: 'CPU 전체', lg2: 'AI 몫',
-      k1: 'NPU 호출당 CPU', k2: '번호판 판독 (프레임당)', k3: 'CPU 최고 온도', list: 'GPU 작업 목록', s_ok: '완료', s_skip: '안 함', s_next: '다음',
-      j1: '헛도는 스레드 제거', j1d: 'CPU 크롭이 사라지자 sched_yield 0', j2: '감지 결과 필터를 GPU로', j2d: 'CPU에서 0.3 ms: 옮길 가치 없음', j3: 'zero-copy', j3d: 'GPU가 디코더 dmabuf를 직접 읽음', j4: '번호판·문자 필터를 GPU로', j4d: 'CPU에서 0.2 ms: 옮길 가치 없음', j5: '번호판 프레임을 GPU에', j5d: 'CPU 복사 대신 GPU 링', j6: '움직임 필터', j6d: '서 있는 차는 다시 읽지 않음', j7: '크롭 묶음 처리', j7d: '효과 작음', j8: 'uint8 모델 + shared buffer', j8d: 'NPU 호출 CPU 5.3 → 2.8 ms',
-      c1: '그룹마다 위 막대는 <b>CPU 전체</b>, 아래 막대는 <b>AI 몫</b>입니다.', c2: '<b>GPU 크롭</b>이 CPU를 가장 많이 줄였고, <b>uint8 + zero-copy</b>가 더 줄였습니다.', c3: '<b>움직임 필터</b>는 판독 로직을 바꾸므로 따로 검증합니다.' },
-    en: { t: 'What changed: measured', s: 'Naegok, 7 cams · same video · first 11 minutes, average (.181)', r1: 'Before (CPU crops)', r2: 'GPU crops', r3: '+ zero-copy · uint8 · shared', lg1: 'CPU total', lg2: 'AI share',
-      k1: 'CPU per NPU call', k2: 'Plate read (per frame)', k3: 'CPU max temp', list: 'GPU task list', s_ok: 'done', s_skip: 'not done', s_next: 'next',
-      j1: 'Spinning threads gone', j1d: 'sched_yield fell to 0 once the CPU crops left', j2: 'Detector output filter on the GPU', j2d: '0.3 ms on the CPU: not worth moving', j3: 'Zero-copy', j3d: 'The GPU reads the decoder dmabuf directly', j4: 'Plate / char filter on the GPU', j4d: '0.2 ms on the CPU: not worth moving', j5: 'Plate frame kept on the GPU', j5d: 'A GPU ring instead of a CPU copy', j6: 'Motion filter', j6d: 'A car standing still is not read again', j7: 'Batched crops', j7d: 'Small gain', j8: 'uint8 models + shared buffer', j8d: 'CPU per NPU call 5.3 → 2.8 ms',
-      c1: 'In each group the top bar is the <b>CPU total</b>, the bottom bar the <b>AI share</b>.', c2: '<b>GPU crops</b> cut the most CPU; <b>uint8 + zero-copy</b> cut more.', c3: 'The <b>motion filter</b> changes the reading logic, so it is checked separately.' },
-    uz: { t: 'Nima o\'zgardi: o\'lchov', s: '내곡 7 kamera · bir xil video · birinchi 11 daqiqa o\'rtachasi (.181)', r1: 'Oldin (CPU kesish)', r2: 'GPU kesish', r3: '+ zero-copy · uint8 · shared', lg1: 'CPU jami', lg2: 'AI ulushi',
-      k1: 'NPU chaqiruviga CPU', k2: 'Raqam o\'qish (kadrga)', k3: 'CPU eng yuqori harorat', list: 'GPU ishlari ro\'yxati', s_ok: 'bajarildi', s_skip: 'qilinmadi', s_next: 'navbatda',
-      j1: 'Bo\'sh aylanish yo\'qoldi', j1d: 'CPU kesish ketgach sched_yield 0', j2: 'Det natijasini GPU\'da filtrlash', j2d: 'CPU\'da 0.3 ms: ko\'chirishga arzimaydi', j3: 'Zero-copy', j3d: 'GPU decoder dmabuf\'ini o\'zi o\'qiydi', j4: 'Raqam/belgi filtrini GPU\'ga', j4d: 'CPU\'da 0.2 ms: ko\'chirishga arzimaydi', j5: 'Raqam kadri GPU\'da', j5d: 'CPU nusxasi o\'rniga GPU ring', j6: 'Harakat filtri', j6d: 'Turgan mashina qayta o\'qilmaydi', j7: 'Kesishlarni bitta chaqiruvda', j7d: 'Foydasi kichik', j8: 'uint8 model + shared buffer', j8d: 'NPU chaqiruviga CPU 5.3 → 2.8 ms',
-      c1: 'Har guruhda yuqori ustun <b>CPU jami</b>, pastkisi <b>AI ulushi</b>.', c2: 'CPU\'ni eng ko\'p <b>GPU kesish</b> kamaytirdi, <b>uint8 + zero-copy</b> yana kamaytirdi.', c3: '<b>Harakat filtri</b> o\'qish mantig\'ini o\'zgartiradi, shuning uchun alohida tekshiriladi.' }
-  });
-
   var XC = { vpu: '#e8c35a', gpu: '#5fc4a8', npu: '#9d8ff2', cpu: '#e59a5c', hot: '#e0a070', dim: '#3a3834', ok: '#5fb98a', grey: '#8a8880', warn: '#e0a030' };
   var XCAMS = ['cam1', 'cam2', 'cam6', 'cam10', 'cam12', 'cam14', 'cam15'];
   var XPARTS = { vpu: { y: 220, h: 118, n: 2, m: '70 fps' }, gpu: { y: 352, h: 226, n: 6, m: '2–5 %' }, npu: { y: 592, h: 150, n: 3, m: '~2.8 ms' }, cpu: { y: 756, h: 166, n: 4, m: 'AI 31 %' } };
@@ -615,7 +600,7 @@
     p.sum = el('div', 'abs', root); css(p.sum, { left: '1210px', top: '556px', width: '590px', height: '254px', background: 'rgba(224,160,112,.08)', border: '1.5px solid ' + XC.hot, borderRadius: '18px', padding: '18px 26px', opacity: 0 });
     var sl = bind(el('div', '', p.sum), 'x1flow.sum_l'); css(sl, { font: '500 16px var(--sans)', color: XC.hot, letterSpacing: '.06em' });
     var stt = bind(el('div', '', p.sum), 'x1flow.sum_t'); css(stt, { font: '800 34px var(--sans)', color: C.ink, margin: '2px 0 10px' });
-    [['sum1', '68 % → 41 %'], ['sum2', '57 % → 31 %'], ['sum3', '66 → 69.5 / 70'], ['sum4', '88 → 62 °C']].forEach(function (q) { var r = el('div', '', p.sum); css(r, { display: 'flex', justifyContent: 'space-between', font: '400 21px/1.55 var(--sans)', color: C.ink2 });
+    [['sum1', '41 %'], ['sum2', '31 %'], ['sum3', '69.5 / 70'], ['sum4', '62 °C']].forEach(function (q) { var r = el('div', '', p.sum); css(r, { display: 'flex', justifyContent: 'space-between', font: '400 21px/1.55 var(--sans)', color: C.ink2 });
       bind(el('span', '', r), 'x1flow.' + q[0]); var v = el('span', '', r, q[1]); css(v, { font: '600 21px var(--mono)', color: C.ink }); });
     p.ram = bind(el('div', 'abs', root), 'x1flow.ram'); css(p.ram, { left: '1212px', top: '828px', width: '590px', font: '400 17px/1.5 var(--mono)', color: C.ink2, opacity: 0 });
   }, render: function (t) { var p = this; p.h.render(t);
@@ -636,38 +621,4 @@
     if (act) { var P = XPARTS[act[0]]; css(p.now, { left: (XCX + XCW - 128) + 'px', top: (P.y - 15) + 'px' }); fade(p.now, ease.out(prog(t, XT0 + si * XDT, .4))); } else fade(p.now, 0);
     rise(p.res, ease.out(prog(t, 2.2, .7)), 18); p.rrows.forEach(function (r, i) { rise(r, ease.out(prog(t, 22.6 + i * .3, .4)), 8); });
     rise(p.sum, ease.out(prog(t, 25.5, .8)), 22); fade(p.ram, ease.out(prog(t, 26.6, .6))); } });
-
-  // x1gain: o'lchov (bir xil video, birinchi 11 daqiqa): ikki ustun bitta o'q, 0..100 %
-  var XRUNS = [['r1', 68.4, 57.2], ['r2', 51.8, 41.7], ['r3', 40.7, 30.9]];
-  var XJOBS = [['j1', 'ok'], ['j2', 'skip'], ['j3', 'ok'], ['j4', 'skip'], ['j5', 'ok'], ['j6', 'next'], ['j7', 'next'], ['j8', 'ok']];
-  D.page({ id: 'x1gain', dur: 20, caps: [[1.5, 'x1gain.c1'], [7, 'x1gain.c2'], [13, 'x1gain.c3']], setup: function (root, p) {
-    p.h = D.head(p, root);
-    var s = svg('svg', { width: 1920, height: 1080 }, root); css(s, { position: 'absolute', left: 0, top: 0, pointerEvents: 'none' });
-    var X0 = 470, W = 640, sx = function (v) { return X0 + v / 100 * W; };
-    [0, 25, 50, 75, 100].forEach(function (v) { svg('line', { x1: sx(v), y1: 282, x2: sx(v), y2: 690, stroke: v ? '#2c2a27' : '#4a4741', 'stroke-width': v ? 1 : 2 }, s); T_(s, sx(v), 716, v + ' %', { anchor: 'middle', size: 17, mono: true, fill: C.ink2 }); });
-    // legend
-    p.lg = el('div', 'abs', root); css(p.lg, { left: X0 + 'px', top: '238px', display: 'flex', gap: '28px', font: '500 19px var(--sans)', color: C.ink2 });
-    [[C.acc2, 'lg1'], [C.acc, 'lg2']].forEach(function (q) { var it = el('span', '', p.lg); css(it, { display: 'flex', alignItems: 'center', gap: '9px' }); var sw = el('i', '', it); css(sw, { width: '16px', height: '16px', borderRadius: '4px', background: q[0], display: 'inline-block' }); bind(el('span', '', it), 'x1gain.' + q[1]); });
-    p.bars = [];
-    XRUNS.forEach(function (r, i) { var y = 300 + i * 136;
-      var lb = bind(el('div', 'abs', root), 'x1gain.' + r[0]); css(lb, { left: '120px', top: (y + 18) + 'px', width: '330px', font: (i === 2 ? '700 ' : '500 ') + '22px var(--sans)', color: i === 2 ? C.ink : C.ink2, whiteSpace: 'nowrap' });
-      [[r[1], C.acc2], [r[2], C.acc]].forEach(function (b, j) { var by = y + j * 40;
-        var rect = svg('rect', { x: X0, y: by, width: 0, height: 32, rx: 4, fill: b[1] }, s);
-        var v = T_(s, X0, by + 24, Math.round(b[0]) + ' %', { size: 20, mono: true, weight: 700, fill: C.ink }); v.style.opacity = 0;
-        p.bars.push({ rect: rect, v: v, val: b[0], w: b[0] / 100 * W, st: 1.2 + i * 1.6 + j * .25 }); }); });
-    // ko'rsatkich plitalari
-    p.kp = [['k1', '5.3 → 2.8 ms'], ['k2', '24 → 14 ms'], ['k3', '88 → 62 °C']].map(function (q, i) { var w = el('div', 'abs', root); css(w, { left: (120 + i * 340) + 'px', top: '756px', width: '320px', height: '120px', background: C.card, border: '1px solid ' + C.line, borderRadius: '16px', padding: '16px 22px' });
-      var a = bind(el('div', '', w), 'x1gain.' + q[0]); css(a, { font: '500 18px var(--sans)', color: C.ink2 }); var b = el('div', '', w, q[1]); css(b, { font: '700 34px var(--mono)', color: C.ink, marginTop: '10px' }); return w; });
-    // GPU ishlari ro'yxati
-    var lt = bind(el('div', 'abs', root), 'x1gain.list'); css(lt, { left: '1250px', top: '232px', font: '700 26px var(--sans)', color: C.ink }); p.lt = lt;
-    p.jobs = XJOBS.map(function (q, i) { var w = el('div', 'abs', root); css(w, { left: '1250px', top: (282 + i * 74) + 'px', width: '560px', height: '64px', background: q[1] === 'ok' ? C.card : 'transparent', border: '1px solid ' + (q[1] === 'ok' ? C.line : '#2c2a27'), borderRadius: '12px', padding: '8px 16px' });
-      var n = el('span', 'abs', w, i < 7 ? String(i + 1) : '+'); css(n, { left: '16px', top: '17px', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', font: '700 15px/1 var(--mono)', color: '#1b1a19', background: q[1] === 'ok' ? XC.ok : q[1] === 'next' ? XC.warn : XC.grey });
-      var a = bind(el('div', 'abs', w), 'x1gain.' + q[0]); css(a, { left: '58px', top: '7px', font: '600 20px var(--sans)', color: q[1] === 'ok' ? C.ink : C.ink2, whiteSpace: 'nowrap' });
-      var b = bind(el('div', 'abs', w), 'x1gain.' + q[0] + 'd'); css(b, { left: '58px', top: '35px', font: '400 15px var(--sans)', color: C.ink2, whiteSpace: 'nowrap' });
-      var pl = bind(el('span', 'pill ' + (q[1] === 'ok' ? 'ok' : q[1] === 'next' ? 'warn' : 'grey'), w), 'x1gain.s_' + q[1]); css(pl, { position: 'absolute', right: '14px', top: '16px', font: '600 14px var(--sans)', padding: '3px 12px' });
-      return w; });
-  }, render: function (t) { var p = this; p.h.render(t); fade(p.lg, ease.out(prog(t, 1, .5)));
-    p.bars.forEach(function (b) { var q = ease.out(prog(t, b.st, .9)); b.rect.setAttribute('width', (b.w * q).toFixed(1)); b.v.setAttribute('x', (470 + b.w * q + 10).toFixed(1)); b.v.style.opacity = prog(t, b.st + .5, .4).toFixed(2); });
-    p.kp.forEach(function (w, i) { rise(w, ease.out(prog(t, 6.2 + i * .35, .6)), 16); });
-    fade(p.lt, ease.out(prog(t, 8.6, .5))); p.jobs.forEach(function (w, i) { rise(w, ease.out(prog(t, 9 + i * .35, .5)), 12); }); } });
 })();
