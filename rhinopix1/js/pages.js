@@ -38,7 +38,7 @@
       c0: '<b>14 ta kamera</b>ning oqimi bitta X1 qurilmaga kiradi.', c1: '<b>VPU</b> dekodlaydi, kadr dmabuf\'da qoladi.', c2: '<b>GPU</b> o\'sha buferni o\'zi o\'qib, det kirishini yasaydi.', c3: '<b>NPU</b> mashinalarni topadi.', c4: '<b>CPU</b> faqat yengil ish qiladi: NMS va kuzatish.', c5: 'Yana <b>GPU</b>: mashina va raqamni kesib, model kirishiga aylantiradi.', c6: '<b>NPU</b> raqam va belgilarni o\'qiydi.', c7: '<b>CPU</b> belgilarni yig\'ib, <b>jsonl</b>ga yozadi.', c8: '14 kameraning hammasi 10 fps\'da, <b>CPU 69%</b>, <b>AI 58%</b>.' }
   });
   var XC = { vpu: '#e8c35a', gpu: '#5fc4a8', npu: '#9d8ff2', cpu: '#e59a5c', hot: '#e0a070', dim: '#3a3834', ok: '#5fb98a', grey: '#8a8880', warn: '#e0a030' };
-  var XCAMS = ['cam1', 'cam2', 'cam6', 'cam10', 'cam11', 'cam12', 'cam13', 'cam14', 'cam15', 'cam16', 'ip66111', 'ip70163', 'ip72001', 'ip108079'];
+  var XCAMS = ['cam1', 'cam2', 'cam3', 'cam4', 'cam5', 'cam6', 'cam7', 'cam8', 'cam9', 'cam10', 'cam11', 'cam12', 'cam13', 'cam14'];
   var XPARTS = { vpu: { y: 220, h: 118, n: 2, m: '140 fps' }, gpu: { y: 352, h: 226, n: 6, m: '4–5 %' }, npu: { y: 592, h: 150, n: 3, m: 'det 8.3 ms' }, cpu: { y: 756, h: 166, n: 4, m: 'AI 58 %' } };
   var XSTEPS = [['vpu', [1, 2]], ['gpu', [1, 2, 3]], ['npu', [1]], ['cpu', [1, 2]], ['gpu', [4, 5, 6]], ['npu', [2, 3]], ['cpu', [3, 4]]];
   var XT0 = 4, XDT = 3, XCX = 470, XCW = 600;
