@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YOLOv26 Detector</title>
+<meta name="description" content="YOLOv26-n object detector running in your browser (onnxruntime-web, WebGPU / WASM), COCO 80 classes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Crect x='7' y='9' width='12' height='10' rx='1.5' stroke='white' stroke-width='2.4' fill='none'/%3E%3Crect x='14' y='14' width='11' height='9' rx='1.5' stroke='white' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #16181d; --ink2: #4b5160; --muted: #7b8291; --line: #e3e6eb;
+    --accent: #2563eb; --accent-ink: #ffffff; --ok: #15803d; --err: #b91c1c; --drop: #eef3ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115; --card: #171a21; --ink: #e8eaee; --ink2: #b4bac6; --muted: #858c99; --line: #2a2f39;
+      --accent: #4f8cff; --accent-ink: #0b0d11; --ok: #4ade80; --err: #f87171; --drop: #1a2333;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115; --card: #171a21; --ink: #e8eaee; --ink2: #b4bac6; --muted: #858c99; --line: #2a2f39;
+    --accent: #4f8cff; --accent-ink: #0b0d11; --ok: #4ade80; --err: #f87171; --drop: #1a2333;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.01em; }
+  .sub { margin: 0 0 20px; color: var(--ink2); }
+  .sub b { color: var(--ink); font-weight: 600; }
+  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 10px; padding: 22px 12px; text-align: center; color: var(--ink2); cursor: pointer; transition: background .15s, border-color .15s; }
+  .drop.on, .drop:hover { background: var(--drop); border-color: var(--accent); }
+  .drop input { display: none; }
+  .drop strong { color: var(--accent); }
+  .ex { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
+  .ex button { padding: 0; border: 2px solid transparent; border-radius: 8px; overflow: hidden; cursor: pointer; background: none; aspect-ratio: 1; }
+  .ex button:hover, .ex button:focus-visible { border-color: var(--accent); outline: none; }
+  .ex img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .row { display: flex; gap: 8px; margin-top: 12px; }
+  .btn { flex: 1; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  label.sl { display: block; margin-top: 16px; color: var(--ink2); font-size: 14px; }
+  label.sl span { float: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .status { margin-top: 14px; font-size: 13px; color: var(--muted); }
+  .status .ok { color: var(--ok); } .status .err { color: var(--err); }
+  dl.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 14px 0 0; font-size: 13px; }
+  dl.kv dt { color: var(--muted); } dl.kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .stage { position: relative; background: repeating-conic-gradient(var(--line) 0 25%, transparent 0 50%) 0 0 / 20px 20px; border-radius: 10px; min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .stage canvas { max-width: 100%; height: auto; display: block; }
+  .stage .ph { color: var(--muted); padding: 40px 16px; text-align: center; }
+  video { display: none; }
+  .tablewrap { margin-top: 14px; max-height: 420px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--card); }
+  td.n { text-align: right; } th.n { text-align: right; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .summary { margin-top: 12px; color: var(--ink2); font-size: 14px; }
+  footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>YOLOv26 Object Detector</h1>
+  <p class="sub">Upload an image, pick an example or turn on the camera. <b>YOLOv26-n</b> (COCO, 80 classes) runs entirely
+    in your browser with onnxruntime-web, so the image never leaves your device.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Input</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/*">
+        <div><strong>Choose an image</strong> or drop it here</div>
+        <div style="font-size:13px;margin-top:4px">JPG, PNG, WebP</div>
+      </label>
+      <div class="ex" id="examples"></div>
+      <div class="row">
+        <button class="btn" id="cam">Start camera</button>
+      </div>
+      <label class="sl">Score threshold <span id="thv">0.25</span>
+        <input type="range" id="th" min="0.05" max="0.95" step="0.05" value="0.25"></label>
+      <div class="status" id="status">Loading model…</div>
+      <dl class="kv">
+        <dt>Model</dt><dd>YOLOv26-n, 640×640, NMS-free</dd>
+        <dt>Backend</dt><dd id="be">–</dd>
+        <dt>Inference</dt><dd id="ms">–</dd>
+        <dt>Image</dt><dd id="sz">–</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2>Detections</h2>
+      <div class="stage" id="stage"><div class="ph" id="ph">The result appears here.</div><canvas id="out" hidden></canvas></div>
+      <div class="summary" id="summary"></div>
+      <div class="tablewrap" id="tw" hidden>
+        <table><thead><tr><th>#</th><th>Class</th><th class="n">Score</th><th class="n">x1</th><th class="n">y1</th><th class="n">x2</th><th class="n">y2</th></tr></thead>
+          <tbody id="rows"></tbody></table>
+      </div>
+    </div>
+  </div>
+  <video id="video" playsinline muted></video>
+  <footer>Model: YOLOv26-n re-implementation in PyTorch (COCO val2017 mAP 0.380), exported to ONNX.
+    The same ONNX file gives the same mAP as best.pt and the TensorRT engine. Runtime: onnxruntime-web 1.20.1 (WebGPU when the browser has it, else WebAssembly).
+    Example images: COCO val2017.</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.webgpu.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
