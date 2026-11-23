@@ -1,8 +1,8 @@
-// Convert page: talks to webyolo-agent on 127.0.0.1:17860 (runs on this PC), which converts best.pt on this PC's GPU
+// Model Export page: talks to webyolo-agent on 127.0.0.1:17860 (runs on this PC), which exports best.pt on this PC's GPU
 "use strict";
 const AGENT = "http://127.0.0.1:17860";
-const WHEEL = new URL("agent/webyolo_agent-0.2.0-py3-none-any.whl", location.href).href;
-const ZIP = new URL("agent/webyolov26-converter.zip", location.href).href;
+const WHEEL = new URL("agent/webyolo_agent-0.3.0-py3-none-any.whl", location.href).href;
+const ZIP = new URL("agent/webyolov26-export.zip", location.href).href;
 const $ = (id) => document.getElementById(id);
 let agent = null, file = null, job = null, os = /Win/.test(navigator.platform) ? "win" : "linux";
 
@@ -27,16 +27,16 @@ const CMDS = {
         ["3. start it (every time)", "py -m webyolo_agent"]],
 };
 const OFFLINE = {
-  linux: [["1. unzip and go into the folder", "unzip webyolov26-converter.zip && cd webyolov26-converter"],
+  linux: [["1. unzip and go into the folder", "unzip webyolov26-export.zip && cd webyolov26-export"],
           ["2. install, once", "pip install torch --index-url https://download.pytorch.org/whl/cu128\npip install -r requirements.txt"],
-          ["3. check the GPU and libraries", "python convert.py --info"],
-          ["4. convert (output: ./converted)", "python convert.py --weights /path/to/best.pt"],
-          ["5. run the engine", "cd converted\npython run.py --model best.engine --source image.jpg"]],
-  win: [["1. unzip and go into the folder", "Expand-Archive webyolov26-converter.zip .; cd webyolov26-converter"],
+          ["3. check the GPU and libraries", "python export.py --info"],
+          ["4. export (output: ./exported)", "python export.py --weights /path/to/best.pt"],
+          ["5. run the engine", "cd exported\npython run.py --model best.engine --source image.jpg"]],
+  win: [["1. unzip and go into the folder", "Expand-Archive webyolov26-export.zip .; cd webyolov26-export"],
         ["2. install, once", "py -m pip install torch --index-url https://download.pytorch.org/whl/cu128\npy -m pip install -r requirements.txt"],
-        ["3. check the GPU and libraries", "py convert.py --info"],
-        ["4. convert (output: .\\converted)", "py convert.py --weights C:\\path\\to\\best.pt"],
-        ["5. run the engine", "cd converted\npy run.py --model best.engine --source image.jpg"]],
+        ["3. check the GPU and libraries", "py export.py --info"],
+        ["4. export (output: .\\exported)", "py export.py --weights C:\\path\\to\\best.pt"],
+        ["5. run the engine", "cd exported\npy run.py --model best.engine --source image.jpg"]],
 };
 function renderCmds(box, list) {
   $(box).innerHTML = list.map(([t, c]) => `<p class="note" style="margin:10px 0 0">${t}</p><pre class="cmd">${c}<button>Copy</button></pre>`).join("");
@@ -50,14 +50,14 @@ function showCmds() {
 }
 ["ostabs", "ostabs2"].forEach((t) => $(t).addEventListener("click", (e) => { if (e.target.dataset.os) { os = e.target.dataset.os; showCmds(); } }));
 
-// ---- the two ways: A (agent, on this page) / B (download the converter)
+// ---- the two ways: A (agent, on this page) / B (download the export tool)
 function setMode(m) {
   $("mode-web").hidden = m !== "web"; $("mode-offline").hidden = m !== "offline";
   $("modes").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.mode === m));
   history.replaceState(null, "", m === "offline" ? "#offline" : location.pathname + location.search);
 }
 $("modes").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) setMode(b.dataset.mode); });
-$("dlzip").addEventListener("click", () => { const a = document.createElement("a"); a.href = ZIP; a.download = "webyolov26-converter.zip"; a.click(); });
+$("dlzip").addEventListener("click", () => { const a = document.createElement("a"); a.href = ZIP; a.download = "webyolov26-export.zip"; a.click(); });
 if (location.hash === "#offline") setMode("offline");
 
 // ---- agent connection (polls until it answers)
@@ -98,7 +98,7 @@ const drop = $("drop");
 ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("on"); }));
 drop.addEventListener("drop", (e) => setFile(e.dataTransfer.files[0]));
 
-// ---- convert
+// ---- export
 function bar(p) { $("bar").hidden = false; $("bar").firstElementChild.style.width = `${Math.round(p * 100)}%`; }
 
 function upload(f, url) {                       // XHR: upload progress
@@ -113,14 +113,14 @@ function upload(f, url) {                       // XHR: upload progress
   });
 }
 
-async function convert() {
+async function runExport() {
   $("res").hidden = true; $("log").hidden = false; $("log").textContent = "";
   $("status").textContent = "Uploading to the local agent…"; bar(0);
   try {
     const q = new URLSearchParams({ imgsz: $("imgsz").value, fp16: $("prec").value, name: file.name });
-    const { id } = await upload(file, `${AGENT}/convert?${q}`);
+    const { id } = await upload(file, `${AGENT}/export?${q}`);
     job = { id, state: "running" }; ready();
-    $("status").textContent = "Converting on this GPU…";
+    $("status").textContent = "Exporting on this GPU…";
     while (true) {
       await new Promise((r) => setTimeout(r, 1000));
       job = await (await fetch(`${AGENT}/jobs/${id}`, { cache: "no-store" })).json();
@@ -135,10 +135,10 @@ async function convert() {
     $("status").innerHTML = `<span class="err">${e.message}</span>`;
   } finally { ready(); }
 }
-$("go").addEventListener("click", convert);
+$("go").addEventListener("click", runExport);
 
 const DESC = { onnx: "portable: any PC, server or browser", engine: "TensorRT, built for this GPU", zip: "everything in one file",
-  "names.json": "class names", "info.json": "conversion details + check", "run.py": "ready detection script", "README.txt": "how to run" };
+  "names.json": "class names", "info.json": "export details + check", "run.py": "ready detection script", "README.txt": "how to run" };
 
 function showResult(j) {
   const r = j.result, v = r.verify, info = r.info;
@@ -186,14 +186,14 @@ $("bgpu").textContent = browserGpu();
 showCmds();
 poll();
 
-// automated check: ?autotest=<url of a .pt> converts it once the agent answers and writes the job as JSON
+// automated check: ?autotest=<url of a .pt> exports it once the agent answers and writes the job as JSON
 const autotest = new URLSearchParams(location.search).get("autotest");
 if (autotest) {
   (async () => {
     while (!agent) await new Promise((r) => setTimeout(r, 500));
     const b = await (await fetch(autotest)).blob();
     setFile(new File([b], "best.pt"));
-    await convert();
+    await runExport();
     const pre = document.createElement("pre"); pre.id = "autotest"; pre.hidden = true;
     pre.textContent = JSON.stringify(job); document.body.appendChild(pre);
   })();

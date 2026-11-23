@@ -1,4 +1,4 @@
-// one converted model kept in this browser (IndexedDB) so the Detect page can test it: {onnx: ArrayBuffer, names, imgsz, label}
+// one exported model kept in this browser (IndexedDB) so the Detect page can test it: {onnx: ArrayBuffer, names, imgsz, label}
 "use strict";
 const ModelStore = {
   open() {

@@ -29,9 +29,9 @@ function setStatus(html, cls) { $("status").innerHTML = cls ? `<span class="${cl
 async function loadModel() {
   ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/";
   let model = MODEL_URL;
-  if (new URLSearchParams(location.search).get("model") === "custom") {       // a model converted on the Convert page
+  if (new URLSearchParams(location.search).get("model") === "custom") {       // a model exported on the Model Export page
     const m = await ModelStore.get().catch(() => null);
-    if (!m) { setStatus("No converted model in this browser. Convert one first.", "err"); return; }
+    if (!m) { setStatus("No exported model in this browser. Export one on the Model Export page first.", "err"); return; }
     model = new Uint8Array(m.onnx); NAMES = m.names; SIZE = m.imgsz;
     lb.width = lb.height = SIZE;
     $("mname").innerHTML = `${m.label}, ${SIZE}×${SIZE} · <a href="./">default model</a>`;
