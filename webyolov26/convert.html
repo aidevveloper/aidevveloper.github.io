@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YOLOv26 Converter</title>
+<meta name="description" content="Convert a YOLOv26 best.pt to ONNX and a TensorRT engine built for your own GPU, then download them">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Crect x='7' y='9' width='12' height='10' rx='1.5' stroke='white' stroke-width='2.4' fill='none'/%3E%3Crect x='14' y='14' width='11' height='9' rx='1.5' stroke='white' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><a href="./">Detect</a><a href="convert.html" class="on">Convert best.pt</a></nav>
+  <h1>Convert best.pt → ONNX + TensorRT</h1>
+  <p class="sub">Upload a <b>YOLOv26</b> <code>best.pt</code>. It is converted on <b>this PC's own GPU</b>, so the
+    <code>.engine</code> fits this card exactly, and you download <code>.onnx</code>, <code>.engine</code> and a ready
+    <code>run.py</code>. The conversion runs in a small local agent; your model never leaves this PC.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>This PC</h2>
+      <dl class="kv" style="margin-top:0">
+        <dt>Browser sees</dt><dd id="bgpu">–</dd>
+        <dt>Agent</dt><dd id="astate"><span class="pill wait">looking…</span></dd>
+      </dl>
+      <dl class="kv" id="ainfo" hidden>
+        <dt>GPU</dt><dd id="i_gpu">–</dd>
+        <dt>Compute cap.</dt><dd id="i_cc">–</dd>
+        <dt>Driver / CUDA</dt><dd id="i_drv">–</dd>
+        <dt>TensorRT</dt><dd id="i_trt">–</dd>
+        <dt>PyTorch</dt><dd id="i_torch">–</dd>
+      </dl>
+      <div id="install" hidden>
+        <p class="note" style="color:var(--ink2)">Start the agent on this PC (first time: install it). Needs Python 3.9+ and an NVIDIA driver; the page connects by itself.</p>
+        <div class="tabs" id="ostabs"><button data-os="linux" class="on">Linux</button><button data-os="win">Windows</button></div>
+        <div id="cmds"></div>
+        <p class="note">The agent listens on 127.0.0.1:17860 only and accepts this page only. The browser may ask
+          to allow access to devices on your local network: allow it.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Convert</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept=".pt">
+        <div id="fname"><strong>Choose best.pt</strong> or drop it here</div>
+        <div style="font-size:13px;margin-top:4px">trained with the YOLOv26-pt repo (any size, any classes)</div>
+      </label>
+      <div class="opts">
+        <label>Input size
+          <select id="imgsz"><option>320</option><option>480</option><option selected>640</option><option>800</option><option>960</option><option>1280</option></select></label>
+        <label>Engine precision
+          <select id="prec"><option value="1" selected>FP16 (fast, same accuracy)</option><option value="0">FP32</option></select></label>
+      </div>
+      <div class="row"><button class="btn primary" id="go" disabled>Convert</button></div>
+      <div class="bar" id="bar" hidden><div></div></div>
+      <div class="status" id="status"></div>
+      <pre class="log" id="log" hidden></pre>
+
+      <div id="res" hidden>
+        <h2 style="margin-top:18px">Check against best.pt</h2>
+        <table><thead><tr><th>Format</th><th class="n">Objects (pt / model)</th><th class="n">Matched</th><th class="n">Box diff</th><th class="n">Score diff</th><th>Result</th></tr></thead>
+          <tbody id="vrows"></tbody></table>
+        <h2 style="margin-top:18px">Download</h2>
+        <div class="dl" id="dl"></div>
+        <div class="row"><button class="btn" id="test">Test the ONNX in the browser (Detect page)</button></div>
+        <p class="note" id="enote"></p>
+      </div>
+    </div>
+  </div>
+  <footer>The <code>.engine</code> runs on the GPU architecture and TensorRT version it was built with; use the
+    <code>.onnx</code> anywhere else, or convert again on the other PC. Agent: <a href="agent/webyolo_agent-0.1.0-py3-none-any.whl">webyolo_agent-0.1.0</a> (Python wheel, source inside).</footer>
+</div>
+<script src="idb.js"></script>
+<script src="convert.js"></script>
+</body>
+</html>

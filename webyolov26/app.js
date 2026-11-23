@@ -2,10 +2,10 @@
 //   letterbox to 640x640: scale down only (r <= 1), black border, RGB, 0..1, NCHW float32
 //   output [1, 300, 6] = x1, y1, x2, y2 (letterbox pixels), score, class id; already top-k sorted, no NMS needed
 "use strict";
-const SIZE = 640;
+let SIZE = 640;
 const MODEL_URL = "model/best.onnx";
 const EXAMPLES = ["coco_000000162858.jpg", "coco_000000087144.jpg", "coco_000000371749.jpg", "coco_000000429109.jpg"];
-const NAMES = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
+let NAMES = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
   "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear",
   "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball",
   "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup",
@@ -28,10 +28,18 @@ function setStatus(html, cls) { $("status").innerHTML = cls ? `<span class="${cl
 
 async function loadModel() {
   ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/";
+  let model = MODEL_URL;
+  if (new URLSearchParams(location.search).get("model") === "custom") {       // a model converted on the Convert page
+    const m = await ModelStore.get().catch(() => null);
+    if (!m) { setStatus("No converted model in this browser. Convert one first.", "err"); return; }
+    model = new Uint8Array(m.onnx); NAMES = m.names; SIZE = m.imgsz;
+    lb.width = lb.height = SIZE;
+    $("mname").innerHTML = `${m.label}, ${SIZE}×${SIZE} · <a href="./">default model</a>`;
+  }
   const tries = navigator.gpu ? ["webgpu", "wasm"] : ["wasm"];
   for (const ep of tries) {
     try {
-      session = await ort.InferenceSession.create(MODEL_URL, { executionProviders: [ep], graphOptimizationLevel: "all" });
+      session = await ort.InferenceSession.create(model, { executionProviders: [ep], graphOptimizationLevel: "all" });
       backend = ep === "webgpu" ? "WebGPU" : "WebAssembly (CPU)";
       // warm-up, and a check that this backend really runs the graph
       await session.run({ [session.inputNames[0]]: new ort.Tensor("float32", new Float32Array(3 * SIZE * SIZE), [1, 3, SIZE, SIZE]) });
