@@ -1,4 +1,4 @@
-// Model Export page: talks to webyolo-agent on 127.0.0.1:17860 (runs on this PC), which exports best.pt on this PC's GPU
+// Export page: talks to webyolo-agent on 127.0.0.1:17860 (runs on this PC), which exports best.pt on this PC's GPU
 "use strict";
 const AGENT = "http://127.0.0.1:17860";
 const WHEEL = new URL("agent/webyolo_agent-0.3.0-py3-none-any.whl", location.href).href;
