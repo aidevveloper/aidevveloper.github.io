@@ -1,7 +1,8 @@
 // Convert page: talks to webyolo-agent on 127.0.0.1:17860 (runs on this PC), which converts best.pt on this PC's GPU
 "use strict";
 const AGENT = "http://127.0.0.1:17860";
-const WHEEL = new URL("agent/webyolo_agent-0.1.0-py3-none-any.whl", location.href).href;
+const WHEEL = new URL("agent/webyolo_agent-0.2.0-py3-none-any.whl", location.href).href;
+const ZIP = new URL("agent/webyolov26-converter.zip", location.href).href;
 const $ = (id) => document.getElementById(id);
 let agent = null, file = null, job = null, os = /Win/.test(navigator.platform) ? "win" : "linux";
 
@@ -25,14 +26,39 @@ const CMDS = {
         ["2. the agent, once", `py -m pip install ${WHEEL}`],
         ["3. start it (every time)", "py -m webyolo_agent"]],
 };
-function showCmds() {
-  $("cmds").innerHTML = CMDS[os].map(([t, c]) => `<p class="note" style="margin:10px 0 0">${t}</p><pre class="cmd">${c}<button>Copy</button></pre>`).join("");
-  $("cmds").querySelectorAll("pre.cmd button").forEach((b) => b.addEventListener("click", () => {
+const OFFLINE = {
+  linux: [["1. unzip and go into the folder", "unzip webyolov26-converter.zip && cd webyolov26-converter"],
+          ["2. install, once", "pip install torch --index-url https://download.pytorch.org/whl/cu128\npip install -r requirements.txt"],
+          ["3. check the GPU and libraries", "python convert.py --info"],
+          ["4. convert (output: ./converted)", "python convert.py --weights /path/to/best.pt"],
+          ["5. run the engine", "cd converted\npython run.py --model best.engine --source image.jpg"]],
+  win: [["1. unzip and go into the folder", "Expand-Archive webyolov26-converter.zip .; cd webyolov26-converter"],
+        ["2. install, once", "py -m pip install torch --index-url https://download.pytorch.org/whl/cu128\npy -m pip install -r requirements.txt"],
+        ["3. check the GPU and libraries", "py convert.py --info"],
+        ["4. convert (output: .\\converted)", "py convert.py --weights C:\\path\\to\\best.pt"],
+        ["5. run the engine", "cd converted\npy run.py --model best.engine --source image.jpg"]],
+};
+function renderCmds(box, list) {
+  $(box).innerHTML = list.map(([t, c]) => `<p class="note" style="margin:10px 0 0">${t}</p><pre class="cmd">${c}<button>Copy</button></pre>`).join("");
+  $(box).querySelectorAll("pre.cmd button").forEach((b) => b.addEventListener("click", () => {
     navigator.clipboard.writeText(b.parentElement.firstChild.textContent).then(() => { b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1200); });
   }));
-  $("ostabs").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.os === os));
 }
-$("ostabs").addEventListener("click", (e) => { if (e.target.dataset.os) { os = e.target.dataset.os; showCmds(); } });
+function showCmds() {
+  renderCmds("cmds", CMDS[os]); renderCmds("cmds2", OFFLINE[os]);
+  ["ostabs", "ostabs2"].forEach((t) => $(t).querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.os === os)));
+}
+["ostabs", "ostabs2"].forEach((t) => $(t).addEventListener("click", (e) => { if (e.target.dataset.os) { os = e.target.dataset.os; showCmds(); } }));
+
+// ---- the two ways: A (agent, on this page) / B (download the converter)
+function setMode(m) {
+  $("mode-web").hidden = m !== "web"; $("mode-offline").hidden = m !== "offline";
+  $("modes").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.mode === m));
+  history.replaceState(null, "", m === "offline" ? "#offline" : location.pathname + location.search);
+}
+$("modes").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) setMode(b.dataset.mode); });
+$("dlzip").addEventListener("click", () => { const a = document.createElement("a"); a.href = ZIP; a.download = "webyolov26-converter.zip"; a.click(); });
+if (location.hash === "#offline") setMode("offline");
 
 // ---- agent connection (polls until it answers)
 async function poll() {

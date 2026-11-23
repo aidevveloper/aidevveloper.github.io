@@ -1,3 +1,4 @@
+[hidden] { display: none !important; }
 :root {
   --bg: #f6f7f9; --card: #ffffff; --ink: #16181d; --ink2: #4b5160; --muted: #7b8291; --line: #e3e6eb;
   --accent: #2563eb; --accent-ink: #ffffff; --ok: #15803d; --err: #b91c1c; --drop: #eef3ff;
@@ -64,7 +65,7 @@ footer a { color: var(--accent); }
 .pill.ok { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
 .pill.err { background: color-mix(in srgb, var(--err) 15%, transparent); color: var(--err); }
 .pill.wait { background: color-mix(in srgb, var(--muted) 18%, transparent); color: var(--ink2); }
-pre.cmd { position: relative; margin: 8px 0 0; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; word-break: break-all; }
+pre.cmd { position: relative; margin: 8px 0 0; padding: 10px 64px 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; word-break: break-all; }
 pre.cmd button { position: absolute; top: 6px; right: 6px; padding: 2px 8px; font-size: 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink2); cursor: pointer; }
 .tabs { display: flex; gap: 6px; margin-top: 10px; }
 .tabs button { padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink2); font: inherit; font-size: 13px; cursor: pointer; }
@@ -83,3 +84,11 @@ pre.log { margin: 10px 0 0; max-height: 220px; overflow: auto; padding: 10px 12p
 .opts select { width: 100%; margin-top: 4px; padding: 7px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; }
 .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
 dl.kv a, .note a, footer a { color: var(--accent); }
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 16px; }
+@media (max-width: 640px) { .modes { grid-template-columns: 1fr; } }
+.modes button { text-align: left; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.modes button b { display: block; font-size: 15px; }
+.modes button span { font-size: 13px; color: var(--muted); }
+.modes button:hover { border-color: var(--accent); }
+.modes button.on { border: 2px solid var(--accent); padding: 11px 13px; }
+.modes button.on b { color: var(--accent); }

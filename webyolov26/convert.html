@@ -12,11 +12,16 @@
 <div class="wrap">
   <nav class="nav"><a href="./">Detect</a><a href="convert.html" class="on">Convert best.pt</a></nav>
   <h1>Convert best.pt → ONNX + TensorRT</h1>
-  <p class="sub">Upload a <b>YOLOv26</b> <code>best.pt</code>. It is converted on <b>this PC's own GPU</b>, so the
-    <code>.engine</code> fits this card exactly, and you download <code>.onnx</code>, <code>.engine</code> and a ready
-    <code>run.py</code>. The conversion runs in a small local agent; your model never leaves this PC.</p>
+  <p class="sub">A <b>YOLOv26</b> <code>best.pt</code> is converted on <b>this PC's own GPU</b>, so the <code>.engine</code>
+    fits this card exactly. You get <code>.onnx</code>, <code>.engine</code>, the class names and a ready <code>run.py</code>,
+    each checked against the <code>.pt</code>. Your model never leaves your PC. Two ways, same converter, same result:</p>
 
-  <div class="grid">
+  <div class="modes" id="modes">
+    <button data-mode="web" class="on"><b>A. Convert here</b><span>upload best.pt on this page; a small local agent does the work</span></button>
+    <button data-mode="offline"><b>B. Download the converter</b><span>run it yourself from the command line, no website needed</span></button>
+  </div>
+
+  <div class="grid" id="mode-web">
     <div class="card">
       <h2>This PC</h2>
       <dl class="kv" style="margin-top:0">
@@ -68,8 +73,37 @@
       </div>
     </div>
   </div>
+  <div id="mode-offline" hidden>
+    <div class="grid">
+      <div class="card">
+        <h2>Download</h2>
+        <div class="dl" style="grid-template-columns:1fr;margin-top:0">
+          <button class="main" id="dlzip"><b>webyolov26-converter.zip</b><span>converter + model code + README (130 KB)</span></button>
+        </div>
+        <p class="note">Inside: <code>convert.py</code>, <code>README.md</code>, <code>requirements.txt</code>, the
+          <code>webyolo_agent</code> package (the same code the agent uses).</p>
+        <h2 style="margin-top:18px">You get</h2>
+        <dl class="kv" style="margin-top:0">
+          <dt>best.onnx</dt><dd>portable: any PC, server, browser</dd>
+          <dt>best.engine</dt><dd>TensorRT, built for your GPU</dd>
+          <dt>names.json</dt><dd>class names</dd>
+          <dt>info.json</dt><dd>GPU, versions, check vs .pt</dd>
+          <dt>run.py</dt><dd>image / video / RTSP / webcam</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h2>Steps (README.md has the details)</h2>
+        <div class="tabs" id="ostabs2"><button data-os="linux" class="on">Linux</button><button data-os="win">Windows</button></div>
+        <div id="cmds2"></div>
+        <p class="note">Needs an NVIDIA GPU with a recent driver (RTX 50 series: 570 or newer) and Python 3.9 - 3.12.
+          The engine build takes 1-5 minutes; at the end the converter prints the check against the .pt
+          (SAME / DIFFERS) and the files.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>The <code>.engine</code> runs on the GPU architecture and TensorRT version it was built with; use the
-    <code>.onnx</code> anywhere else, or convert again on the other PC. Agent: <a href="agent/webyolo_agent-0.1.0-py3-none-any.whl">webyolo_agent-0.1.0</a> (Python wheel, source inside).</footer>
+    <code>.onnx</code> anywhere else, or convert again on the other PC. Agent: <a href="agent/webyolo_agent-0.2.0-py3-none-any.whl">webyolo_agent-0.2.0</a> (Python wheel, source inside).</footer>
 </div>
 <script src="idb.js"></script>
 <script src="convert.js"></script>
